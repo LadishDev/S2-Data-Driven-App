@@ -20,5 +20,10 @@ public:
 	ofHttpResponse res;//handles response from API
 	ofURLFileLoader loader;//object to load data
 	ofxJSONElement json;//object to store data
+	
+	ofTrueTypeFont OpenSans;//font object
+	ofTrueTypeFont OpenSanstitle;//font object
 
+	ofImage BtnImg;
+	ofRectangle LoginBtn;
 };

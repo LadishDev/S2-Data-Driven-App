@@ -15,6 +15,7 @@ public:
 	void keyReleased(int key);
 	void mousePressed(int x, int y, int button);
 	void mouseReleased(int x, int y, int button);
+	bool validKey(int key); //checks if key is valid for search
 
 	ofHttpRequest req;//handles request to API
 	ofHttpResponse res;//handles response from API
@@ -24,6 +25,12 @@ public:
 	ofTrueTypeFont OpenSans;//font object
 	ofTrueTypeFont OpenSanstitle;//font object
 
+	string MachineState;
+
 	ofImage BtnImg;
 	ofRectangle LoginBtn;
+
+	ofRectangle TextBox; //text box for search
+	bool TextInput; //checks if text input is active
+	string word; //stores word to be searched
 };

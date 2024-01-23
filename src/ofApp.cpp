@@ -28,7 +28,7 @@ void ofApp::setup() {
     BtnSearchImg.load("searchbtn.png");
 
     SearchBtn.set(55, 105, 50, 50); // Set button position
-    LoginBtn.set(340, 1000, 400, 70); // Set button position
+    LoginBtn.set(340, 1000, 400, 80); // Set button position
     MachineState = "First Time Launch";
 }
 

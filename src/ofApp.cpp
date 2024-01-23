@@ -25,7 +25,9 @@ void ofApp::setup() {
     OpenSans.load("opensans.ttf", 36); //load font
 
     BtnImg.load("loginbtn.png");
+    BtnSearchImg.load("searchbtn.png");
 
+    SearchBtn.set(55, 105, 50, 50); // Set button position
     LoginBtn.set(340, 1000, 400, 70); // Set button position
     MachineState = "First Time Launch";
 }
@@ -87,7 +89,20 @@ void ofApp::draw() {
         
         // Search Bar
         ofSetColor(0,0,0);
-        ofDrawRectangle(340, 100, 600, 70);
+        ofDrawRectangle(50, 100, 975, 60);
+        ofSetColor(255, 255, 255);
+        ofDrawRectangle(55, 105, 965, 50);
+
+        // Search Icon
+        ofSetColor(0, 0, 0);
+        BtnSearchImg.draw(SearchBtn);
+
+        // First Section
+
+        // Second Section
+
+        // Third Section
+
 
 
     }

@@ -27,8 +27,8 @@ public:
 
 	string MachineState;
 
-	ofImage BtnImg;
-	ofRectangle LoginBtn;
+	ofImage BtnImg, BtnSearchImg;
+	ofRectangle LoginBtn, SearchBtn;
 
 	ofRectangle TextBox; //text box for search
 	bool TextInput; //checks if text input is active

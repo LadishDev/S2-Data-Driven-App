@@ -12,8 +12,8 @@ void ofApp::setup() {
     req.method = ofHttpRequest::GET;//sets request method to get (e.g. retrieve data)
     req.url = "https://api.discogs.com/artists/125246?token=mTFAawaxdtKqkgVeBZovKdEwJKjUeLrKBJGPEvcU"; //specify the API call - this will retrieve Nirvana
 
-    res = loader.handleRequest(req);//load request into response object
-    json.parse(res.data);//parse response data into json object so we can work with it
+    //res = loader.handleRequest(req);//load request into response object
+    //json.parse(res.data);//parse response data into json object so we can work with it
 
     cout << json.getRawString() << endl;//output raw data
 
@@ -80,13 +80,12 @@ void ofApp::draw() {
         ofSetColor(255,255,255);
         OpenSans.drawString("DiscoJam", 465, 51);
         
-        // Hambuger Menu
+        // Hamburger Menu
         ofDrawRectangle(10, 20, 35, 5);
         ofDrawRectangle(10, 30, 35, 5);
         ofDrawRectangle(10, 40, 35, 5);
 
         // Main Body
-        
         // Search Bar
         ofSetColor(0,0,0);
         ofDrawRectangle(50, 100, 975, 60);
@@ -98,10 +97,35 @@ void ofApp::draw() {
         BtnSearchImg.draw(SearchBtn);
 
         // First Section
+        ofSetColor(47, 79, 79);
+        ofDrawRectangle(30, 200, 1015, 300);
+        ofSetColor(255, 255, 255);
+        ofDrawRectangle(35, 205, 200, 290);
+        ofDrawRectangle(245, 205, 200, 290);
+        ofDrawRectangle(455, 205, 200, 290);
+        ofDrawRectangle(665, 205, 200, 290);
+        ofDrawRectangle(875, 205, 170, 290);
 
         // Second Section
+        ofSetColor(47, 79, 79);
+        ofDrawRectangle(30, 550, 1015, 300);
+        ofSetColor(255, 255, 255);
+        ofDrawRectangle(35, 555, 200, 290);
+        ofDrawRectangle(245, 555, 200, 290);
+        ofDrawRectangle(455, 555, 200, 290);
+        ofDrawRectangle(665, 555, 200, 290);
+        ofDrawRectangle(875, 555, 170, 290);
 
         // Third Section
+        ofSetColor(47, 79, 79);
+        ofDrawRectangle(30, 900, 1015, 300);
+        ofSetColor(255, 255, 255);
+        ofDrawRectangle(35, 905, 200, 290);
+        ofDrawRectangle(245, 905, 200, 290);
+        ofDrawRectangle(455, 905, 200, 290);
+        ofDrawRectangle(665, 905, 200, 290);
+        ofDrawRectangle(875, 905, 170, 290);
+
 
 
 

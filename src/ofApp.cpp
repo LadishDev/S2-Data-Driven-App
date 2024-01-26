@@ -9,8 +9,8 @@ void ofApp::setup() {
     As the API requires setting of headers to the steps to retrieve data are slightly different to the other APIs
     */
     req.headers["User-Agent"] = "450340_MusicAPI_BSU/v1 (callum.baldwin22@bathspa.ac.uk)";//sets user agent header - used to indentify your app
+    req.headers["Authorization"] = "Discogs token=mTFAawaxdtKqkgVeBZovKdEwJKjUeLrKBJGPEvcU";
     req.method = ofHttpRequest::GET;//sets request method to get (e.g. retrieve data)
-    req.url = "https://api.discogs.com/artists/125246?token=mTFAawaxdtKqkgVeBZovKdEwJKjUeLrKBJGPEvcU"; //specify the API call - this will retrieve Nirvana
 
     //res = loader.handleRequest(req);//load request into response object
     //json.parse(res.data);//parse response data into json object so we can work with it
@@ -25,10 +25,15 @@ void ofApp::setup() {
     OpenSans.load("opensans.ttf", 36); //load font
 
     BtnImg.load("loginbtn.png");
+    BtnMenuImg.load("menubtn.png");
     BtnSearchImg.load("searchbtn.png");
+    BtnHomeImg.load("homebtn.png");
 
+    MenuBtn.set(10, 10, 50, 50); // Set button position
+    HomeBtn.set(75, 10, 50, 50); // Set button position
     SearchBtn.set(55, 105, 50, 50); // Set button position
     LoginBtn.set(340, 1000, 400, 80); // Set button position
+
     TextBox.set(55, 105, 965, 50); // Set text box position for search
     MachineState = "First Time Launch";
     TextInput = false;
@@ -108,11 +113,42 @@ void ofApp::draw() {
         ofDrawRectangle(875, 905, 170, 290);
     } 
     else if (MachineState == "Search Query") {
-        OpenSans.drawString("Search Query", 465, 51);
+        OpenSans.drawString("Results For " + WordSearched, 100, 210);
+
+        // Giant Box for Results
+        ofSetColor(47, 79, 79);
+        ofDrawRectangle(30, 250, 1015, 950);
+
+        // Column of results 
+        ofSetColor(255, 255, 255);
+        ofDrawRectangle(35, 255, 1005, 130);
+        ofDrawRectangle(35, 390, 1005, 130);
+        ofDrawRectangle(35, 525, 1005, 130);
+        ofDrawRectangle(35, 660, 1005, 130);
+        ofDrawRectangle(35, 795, 1005, 130);
+        ofDrawRectangle(35, 930, 1005, 130);
+        ofDrawRectangle(35, 1065, 1005, 130);
+
+        // Draw artist images and names
+        for (int i = 0; i < 7; ++i) {
+            // Draw image rectangle
+            ofSetColor(255, 255, 255);
+            ofDrawRectangle(50, 265 + i * 135, 100, 100);
+
+            // Load and draw artist image
+            std::string imageURL = json["results"][i]["thumb"].asString();
+            ofImage artistImage;
+            artistImage.load(imageURL);
+            artistImage.draw(50, 265 + i * 135, 100, 100);
+
+            // Draw artist name
+            ofSetColor(0, 0, 0);
+            OpenSans.drawString(json["results"][i]["title"].asString(), 200, 310 + i * 135);
+        }
     }
 
 
-
+    // Draw the Top Navigation Bar and Search Bar
     if (MachineState != "First Time Launch") {
         // Top Bar
         ofSetColor(47, 79, 79);
@@ -123,9 +159,10 @@ void ofApp::draw() {
         OpenSans.drawString("DiscoJam", 465, 51);
 
         // Hamburger Menu
-        ofDrawRectangle(10, 20, 35, 5);
-        ofDrawRectangle(10, 30, 35, 5);
-        ofDrawRectangle(10, 40, 35, 5);
+        BtnMenuImg.draw(MenuBtn);
+
+        // Home Button
+        BtnHomeImg.draw(HomeBtn);
 
         // Main Body
         // Search Bar
@@ -147,10 +184,6 @@ void ofApp::draw() {
     }
 }
 
-/*      SEARCH QUERY FROM API 
- 
-*/
-
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key) {
     if (TextInput == true && validKey(key)) {
@@ -160,7 +193,20 @@ void ofApp::keyPressed(int key) {
             }
         }
         else if (key == OF_KEY_RETURN) {
-            cout << "The word you searched for was: " << word << endl;
+            cout << "Searching For: " << word << endl;
+            WordSearched = word;
+            // iterate through the string and replace spaces with + signs
+            for (int i = 0; i < word.length(); i++) {
+                if (word[i] == ' ') {
+                    word[i] = '+';
+                }
+            }
+            // set the request url to the search query
+            req.url = "https://api.discogs.com/database/search?q=" + word;
+            cout << req.url << endl;
+            res = loader.handleRequest(req);//load request into response object
+            json.parse(res.data);//parse response data into json object so we can work with it
+            cout << json.getRawString() << endl;//output raw data
             word = "";
             TextInput = false;
             MachineState = "Search Query";
@@ -186,6 +232,21 @@ void ofApp::mousePressed(int x, int y, int button) {
         }
     }
     else if (MachineState == "Home Page") {
+
+    }
+    else if (MachineState == "Search Query") {
+        
+    }
+
+    if (MachineState != "First Time Launch") {
+        if (MenuBtn.inside(x, y)) {
+            cout << "Menu Button Pressed" << endl;
+        }
+        else if (HomeBtn.inside(x, y)) {
+            cout << "Home Button Pressed" << endl;
+            ofBackground(248, 248, 255);
+            MachineState = "Home Page";
+        }
         if (TextBox.inside(x, y) && TextInput == false) {
             TextInput = true;
             word = "";

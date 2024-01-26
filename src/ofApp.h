@@ -25,10 +25,10 @@ public:
 	ofTrueTypeFont OpenSans;//font object
 	ofTrueTypeFont OpenSanstitle;//font object
 
-	string MachineState;
+	string MachineState, WordSearched;
 
-	ofImage BtnImg, BtnSearchImg;
-	ofRectangle LoginBtn, SearchBtn;
+	ofImage BtnImg, BtnMenuImg, BtnSearchImg, BtnHomeImg;
+	ofRectangle LoginBtn, MenuBtn, SearchBtn, HomeBtn;
 
 	ofRectangle TextBox; //text box for search
 	bool TextInput; //checks if text input is active

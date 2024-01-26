@@ -76,38 +76,7 @@ void ofApp::draw() {
         ofSetColor(255, 255, 255);
         BtnImg.draw(LoginBtn);
     }
-    if (MachineState == "Home Page") {
-        // Top Bar
-        ofSetColor(47, 79, 79);
-        ofDrawRectangle(0, 0, 1280, 70);
-
-        // Title
-        ofSetColor(255,255,255);
-        OpenSans.drawString("DiscoJam", 465, 51);
-        
-        // Hamburger Menu
-        ofDrawRectangle(10, 20, 35, 5);
-        ofDrawRectangle(10, 30, 35, 5);
-        ofDrawRectangle(10, 40, 35, 5);
-
-        // Main Body
-        // Search Bar
-        ofSetColor(0,0,0);
-        ofDrawRectangle(50, 100, 975, 60);
-        if (TextInput == false) {
-            ofSetColor(150);
-        }
-        else {
-            ofSetColor(255);
-        }
-        ofDrawRectangle(TextBox);
-        ofSetColor(0);
-        OpenSans.drawString(word, 105, 145);
-
-        // Search Icon
-        ofSetColor(0, 0, 0);
-        BtnSearchImg.draw(SearchBtn);
-
+    else if (MachineState == "Home Page") {
         // First Section
         ofSetColor(47, 79, 79);
         ofDrawRectangle(30, 200, 1015, 300);
@@ -137,8 +106,45 @@ void ofApp::draw() {
         ofDrawRectangle(455, 905, 200, 290);
         ofDrawRectangle(665, 905, 200, 290);
         ofDrawRectangle(875, 905, 170, 290);
+    } 
+    else if (MachineState == "Search Query") {
+        OpenSans.drawString("Search Query", 465, 51);
     }
 
+
+
+    if (MachineState != "First Time Launch") {
+        // Top Bar
+        ofSetColor(47, 79, 79);
+        ofDrawRectangle(0, 0, 1280, 70);
+
+        // Title
+        ofSetColor(255, 255, 255);
+        OpenSans.drawString("DiscoJam", 465, 51);
+
+        // Hamburger Menu
+        ofDrawRectangle(10, 20, 35, 5);
+        ofDrawRectangle(10, 30, 35, 5);
+        ofDrawRectangle(10, 40, 35, 5);
+
+        // Main Body
+        // Search Bar
+        ofSetColor(0, 0, 0);
+        ofDrawRectangle(50, 100, 975, 60);
+        if (TextInput == false) {
+            ofSetColor(150);
+        }
+        else {
+            ofSetColor(255);
+        }
+        ofDrawRectangle(TextBox);
+        ofSetColor(0);
+        OpenSans.drawString(word, 105, 145);
+
+        // Search Icon
+        ofSetColor(0, 0, 0);
+        BtnSearchImg.draw(SearchBtn);
+    }
 }
 
 /*      SEARCH QUERY FROM API 
@@ -156,7 +162,8 @@ void ofApp::keyPressed(int key) {
         else if (key == OF_KEY_RETURN) {
             cout << "The word you searched for was: " << word << endl;
             word = "";
-            TextInput = false;            
+            TextInput = false;
+            MachineState = "Search Query";
 		}
         else {
 			ofUTF8Append(word, key);
@@ -179,11 +186,6 @@ void ofApp::mousePressed(int x, int y, int button) {
         }
     }
     else if (MachineState == "Home Page") {
-        cout << "test" << endl;
-
-
-
-
         if (TextBox.inside(x, y) && TextInput == false) {
             TextInput = true;
             word = "";

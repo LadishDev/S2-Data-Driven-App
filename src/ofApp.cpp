@@ -29,12 +29,17 @@ void ofApp::setup() {
 
     SearchBtn.set(55, 105, 50, 50); // Set button position
     LoginBtn.set(340, 1000, 400, 80); // Set button position
+    TextBox.set(55, 105, 965, 50); // Set text box position for search
     MachineState = "First Time Launch";
+    TextInput = false;
+    word = "";
 }
 
 //--------------------------------------------------------------
 void ofApp::update() {
-
+    if (TextInput == false) {
+        word = "Click to Search";
+    }
 }
 
 //--------------------------------------------------------------
@@ -89,8 +94,15 @@ void ofApp::draw() {
         // Search Bar
         ofSetColor(0,0,0);
         ofDrawRectangle(50, 100, 975, 60);
-        ofSetColor(255, 255, 255);
-        ofDrawRectangle(55, 105, 965, 50);
+        if (TextInput == false) {
+            ofSetColor(150);
+        }
+        else {
+            ofSetColor(255);
+        }
+        ofDrawRectangle(TextBox);
+        ofSetColor(0);
+        OpenSans.drawString(word, 105, 145);
 
         // Search Icon
         ofSetColor(0, 0, 0);
@@ -125,18 +137,31 @@ void ofApp::draw() {
         ofDrawRectangle(455, 905, 200, 290);
         ofDrawRectangle(665, 905, 200, 290);
         ofDrawRectangle(875, 905, 170, 290);
-
-
-
-
     }
-
 
 }
 
+/*      SEARCH QUERY FROM API 
+ 
+*/
+
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key) {
-
+    if (TextInput == true && validKey(key)) {
+        if ((key == OF_KEY_BACKSPACE || key == OF_KEY_DEL)) {
+            if (word.length() != 0) {
+                word.pop_back();
+            }
+        }
+        else if (key == OF_KEY_RETURN) {
+            cout << "The word you searched for was: " << word << endl;
+            word = "";
+            TextInput = false;            
+		}
+        else {
+			ofUTF8Append(word, key);
+		}
+    }
 }
 
 //--------------------------------------------------------------
@@ -153,13 +178,32 @@ void ofApp::mousePressed(int x, int y, int button) {
             MachineState = "Home Page";
         }
     }
-    if (MachineState == "Home Page") {
-        cout << "Test" << endl;
-    }
+    else if (MachineState == "Home Page") {
+        cout << "test" << endl;
 
+
+
+
+        if (TextBox.inside(x, y) && TextInput == false) {
+            TextInput = true;
+            word = "";
+        }
+        else {
+            TextInput = false;
+        }
+    }
 }
 
 //--------------------------------------------------------------
 void ofApp::mouseReleased(int x, int y, int button) {
 
+}
+
+bool ofApp::validKey(int key) {
+    if (key == OF_KEY_ALT || key == OF_KEY_CONTROL || key == OF_KEY_SHIFT || key == OF_KEY_COMMAND) {
+		return false;
+	}
+    else {
+		return true;
+	}
 }

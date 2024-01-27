@@ -170,6 +170,12 @@ void ofApp::draw() {
         // Draw artist name
         ofSetColor(0, 0, 0);
         OpenSans.drawString(json["title"].asString(), 200, 310);
+
+        // Draw genre and print out all the values within the array
+        OpenSans.drawString("Genre: ", 70, 420);
+        for (int i = 0; i < json["genres"].size(); ++i) {
+            OpenSans.drawString(json["genres"][i].asString(), 200, 420 + i * 50);
+        }
     }
 
     // Draw the Top Navigation Bar and Search Bar
@@ -219,17 +225,43 @@ void ofApp::keyPressed(int key) {
         else if (key == OF_KEY_RETURN) {
             cout << "Searching For: " << word << endl;
             WordSearched = word;
+            // if word has a - in it then grab the first word before the - and use that as the search query for artist name and grab the word after and store that for the track name 
             // iterate through the string and replace spaces with + signs and convert to lowercase
-            for (int i = 0; i < word.length(); i++) {
-                if (word[i] == ' ') {
-                    word[i] = '+';
+
+            if (word.find("-") != string::npos) {
+                string artist = word.substr(0, word.find("-"));
+                string track = word.substr(word.find("-") + 1);
+                for (int i = 0; i < artist.length(); i++) {
+                    if (artist[i] == ' ') {
+                        artist[i] = '+';
+                    }
                 }
+                for (int i = 0; i < track.length(); i++) {
+                    if (track[i] == ' ') {
+                        track[i] = '+';
+                    }
+                }
+                // if end of string is a + sign then remove it
+                if (artist[artist.length() - 1] == '+') {
+					artist.pop_back();
+				}
+                // set the request url to the search query
+                req.url = "https://api.discogs.com/database/search?artist=" + artist + "&track=" + track + "&page=1&per_page=7";
+                res = loader.handleRequest(req);//load request into response object
+                json.parse(res.data);//parse response data into json object so we can work with it
+            }
+            else {
+                for (int i = 0; i < word.length(); i++) {
+                    if (word[i] == ' ') {
+						word[i] = '+';
+					}
+				}
+                // set the request url to the search query
+                req.url = "https://api.discogs.com/database/search?track=" + word + "&page=1&per_page=7";
+                res = loader.handleRequest(req);//load request into response object
+                json.parse(res.data);//parse response data into json object so we can work with it
             }
             // set the request url to the search query
-            req.url = "https://api.discogs.com/database/search?q=" + word;
-            cout << req.url << endl;
-            res = loader.handleRequest(req);//load request into response object
-            json.parse(res.data);//parse response data into json object so we can work with it
             word = "";
             TextInput = false;
             MachineState = "Search Query";
@@ -262,7 +294,7 @@ void ofApp::mousePressed(int x, int y, int button) {
             if (ViewMoreBtn[i].inside(x, y)) {
                 cout << "View More Button Pressed: " << i << endl;
 
-                req.url = "https://api.discogs.com/artists/" + json["results"][i]["id"].asString();
+                req.url = json["results"][i]["resource_url"].asString();
                 cout << req.url << endl;
                 res = loader.handleRequest(req);//load request into response object
                 json.parse(res.data);//parse response data into json object so we can work with it

@@ -136,7 +136,7 @@ void ofApp::draw() {
             ofDrawRectangle(50, 265 + i * 135, 100, 100);
 
             // Load and draw artist image
-            std::string imageURL = json["results"][i]["thumb"].asString();
+            string imageURL = json["results"][i]["thumb"].asString();
             ofImage artistImage;
             artistImage.load(imageURL);
             artistImage.draw(50, 265 + i * 135, 100, 100);
@@ -144,9 +144,33 @@ void ofApp::draw() {
             // Draw artist name
             ofSetColor(0, 0, 0);
             OpenSans.drawString(json["results"][i]["title"].asString(), 200, 310 + i * 135);
+
+            // Make a view more box in bottom right corner of each result
+            ofSetColor(47, 79, 79);
+            // make button rectangle for view more button for each result with unique id
+            ViewMoreBtn[i].set(835, 318 + i * 135, 200, 60);
+            ofDrawRectangle(ViewMoreBtn[i]);
+
+
+            ofSetColor(255, 255, 255);
+            OpenSans.drawString("View More", 845, 360 + i * 135);
         }
     }
+    else if (MachineState == "View Song") {
+        ofSetColor(47, 79, 79);
+        ofDrawRectangle(30, 250, 1015, 950);
 
+        // Place poster in top left corner
+        ofSetColor(255, 255, 255);
+        string imageURL = json["images"][0]["uri"].asString();
+        ofImage artistImage;
+        artistImage.load(imageURL);
+        artistImage.draw(50, 265, 100, 100);
+
+        // Draw artist name
+        ofSetColor(0, 0, 0);
+        OpenSans.drawString(json["title"].asString(), 200, 310);
+    }
 
     // Draw the Top Navigation Bar and Search Bar
     if (MachineState != "First Time Launch") {
@@ -195,7 +219,7 @@ void ofApp::keyPressed(int key) {
         else if (key == OF_KEY_RETURN) {
             cout << "Searching For: " << word << endl;
             WordSearched = word;
-            // iterate through the string and replace spaces with + signs
+            // iterate through the string and replace spaces with + signs and convert to lowercase
             for (int i = 0; i < word.length(); i++) {
                 if (word[i] == ' ') {
                     word[i] = '+';
@@ -206,7 +230,6 @@ void ofApp::keyPressed(int key) {
             cout << req.url << endl;
             res = loader.handleRequest(req);//load request into response object
             json.parse(res.data);//parse response data into json object so we can work with it
-            cout << json.getRawString() << endl;//output raw data
             word = "";
             TextInput = false;
             MachineState = "Search Query";
@@ -235,7 +258,17 @@ void ofApp::mousePressed(int x, int y, int button) {
 
     }
     else if (MachineState == "Search Query") {
-        
+        for (int i = 0; i < 7; ++i) {
+            if (ViewMoreBtn[i].inside(x, y)) {
+                cout << "View More Button Pressed: " << i << endl;
+
+                req.url = "https://api.discogs.com/artists/" + json["results"][i]["id"].asString();
+                cout << req.url << endl;
+                res = loader.handleRequest(req);//load request into response object
+                json.parse(res.data);//parse response data into json object so we can work with it
+                MachineState = "View Song";
+            }
+        }
     }
 
     if (MachineState != "First Time Launch") {

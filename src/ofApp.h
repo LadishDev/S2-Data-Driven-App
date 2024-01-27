@@ -30,6 +30,8 @@ public:
 	ofImage BtnImg, BtnMenuImg, BtnSearchImg, BtnHomeImg;
 	ofRectangle LoginBtn, MenuBtn, SearchBtn, HomeBtn;
 
+	ofRectangle ViewMoreBtn[7];
+
 	ofRectangle TextBox; //text box for search
 	bool TextInput; //checks if text input is active
 	string word; //stores word to be searched

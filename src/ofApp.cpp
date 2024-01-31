@@ -2,24 +2,13 @@
 
 //--------------------------------------------------------------
 void ofApp::setup() {
-    /*
-    API requires sign up here: https://accounts.discogs.com/login
-    Once signed in you will need to create an app: https://www.discogs.com/settings/developers
-    After creating an app you can generate a personal access token from this page: https://www.discogs.com/settings/developers
-    As the API requires setting of headers to the steps to retrieve data are slightly different to the other APIs
-    */
     req.headers["User-Agent"] = "450340_MusicAPI_BSU/v1 (callum.baldwin22@bathspa.ac.uk)";//sets user agent header - used to indentify your app
-    req.headers["Authorization"] = "Discogs token=mTFAawaxdtKqkgVeBZovKdEwJKjUeLrKBJGPEvcU";
+    req.headers["Authorization"] = "Discogs token=mTFAawaxdtKqkgVeBZovKdEwJKjUeLrKBJGPEvcU"; //sets authorization header - used to authenticate your app
     req.method = ofHttpRequest::GET;//sets request method to get (e.g. retrieve data)
 
-    //res = loader.handleRequest(req);//load request into response object
-    //json.parse(res.data);//parse response data into json object so we can work with it
-
-    cout << json.getRawString() << endl;//output raw data
 
     // set background color to Ghost White
     ofBackground(248, 248, 255);
-
 
     OpenSanstitle.load("opensans.ttf", 60); //load font
     OpenSans.load("opensans.ttf", 36); //load font
@@ -130,7 +119,7 @@ void ofApp::draw() {
         ofDrawRectangle(35, 1065, 1005, 130);
 
         // Draw artist images and names
-        for (int i = 0; i < 7; ++i) {
+        for (int i = 0; i < json["results"].size(); ++i) {
             // Draw image rectangle
             ofSetColor(255, 255, 255);
             ofDrawRectangle(50, 265 + i * 135, 100, 100);
@@ -151,7 +140,6 @@ void ofApp::draw() {
             ViewMoreBtn[i].set(835, 318 + i * 135, 200, 60);
             ofDrawRectangle(ViewMoreBtn[i]);
 
-
             ofSetColor(255, 255, 255);
             OpenSans.drawString("View More", 845, 360 + i * 135);
         }
@@ -165,17 +153,32 @@ void ofApp::draw() {
         string imageURL = json["images"][0]["uri"].asString();
         ofImage artistImage;
         artistImage.load(imageURL);
-        artistImage.draw(50, 265, 100, 100);
+        artistImage.draw(50, 265, 200, 200);
 
         // Draw artist name
-        ofSetColor(0, 0, 0);
-        OpenSans.drawString(json["title"].asString(), 200, 310);
+        ofSetColor(255, 255, 255);
+        OpenSans.drawString(json["title"].asString(), 255, 310);
+
+        // Draw Release Year
+        OpenSans.drawString("Release Date: " + json["released"].asString(), 255, 420);
 
         // Draw genre and print out all the values within the array
-        OpenSans.drawString("Genre: ", 70, 420);
+        OpenSans.drawString("Genre: ", 70, 520);
         for (int i = 0; i < json["genres"].size(); ++i) {
-            OpenSans.drawString(json["genres"][i].asString(), 200, 420 + i * 50);
+            OpenSans.drawString(json["genres"][i].asString(), 70, 570 + i * 50);
         }
+
+        // Draw style and print out all the values within the array
+        OpenSans.drawString("Style: ", 700, 520);
+        for (int i = 0; i < json["styles"].size(); ++i) {
+			OpenSans.drawString(json["styles"][i].asString(), 700, 570 + i * 50);
+		}
+
+        // View on Discogs Button
+        ofSetColor(255, 255, 255);
+        ofDrawRectangle(40, 1130, 994, 60);
+        ofSetColor(0, 0, 0);
+        OpenSans.drawString("View on Discogs", 380, 1172);
     }
 
     // Draw the Top Navigation Bar and Search Bar
@@ -261,6 +264,7 @@ void ofApp::keyPressed(int key) {
                 res = loader.handleRequest(req);//load request into response object
                 json.parse(res.data);//parse response data into json object so we can work with it
             }
+            cout << req.url << endl;
             // set the request url to the search query
             word = "";
             TextInput = false;

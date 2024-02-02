@@ -49,6 +49,6 @@ public:
 	ofRectangle LibraryViewMoreBtn[7];
 
 	// *** Genres Page *** //
-	ofRectangle GenresBtn[13];
+	ofRectangle GenresBtn[12];
 	vector <string> GenresName;
 };

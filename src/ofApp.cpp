@@ -212,13 +212,13 @@ void ofApp::draw() {
 
         // boxes for each genre
         ofSetColor(255, 255, 255);
-        for (int i = 0; i < 13; i++) {
+        for (int i = 0; i < 12; i++) {
 			ofDrawRectangle(GenresBtn[i]);
 		}
 
         // Draw genre names
         ofSetColor(0, 0, 0);
-        for (int i = 0; i < 13; i++) {
+        for (int i = 0; i < 12; i++) {
 			OpenSans.drawString(GenresName[i], 50, 295 + i * 70);
 		}
     }
@@ -384,7 +384,7 @@ void ofApp::mousePressed(int x, int y, int button) {
         else if (MenuGenresBtn.inside(x, y)) {
 			cout << "Genres Button Pressed" << endl;
             ofBackground(248, 248, 255);
-            for (int i = 0; i < 13; i++) {
+            for (int i = 0; i < 12; i++) {
                 GenresBtn[i].set(35, 255 + i * 70, 1005, 65);
             }
             GenresName = { "Rock", "Pop", "Jazz", "Blues", "R&B", "Hip-Hop", "Country", "Electronic", "Folk", "Classical", "Reggae", "Soul", "Metal" };

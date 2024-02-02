@@ -177,6 +177,35 @@ void ofApp::draw() {
         ofSetColor(0, 0, 0);
         OpenSans.drawString("View on Discogs", 380, 1172);
     }
+    else if (MachineState == "Menu Page") {
+		ofBackground(47, 79, 79);
+        
+        // Set the Menu Options locations
+		MenuHomeBtn.set(50, 200, 975, 60);
+		MenuLibaryBtn.set(50, 300, 975, 60);
+        MenuGenresBtn.set(50, 400, 975, 60);
+		MenuSettingsBtn.set(50, 500, 975, 60);
+		MenuAboutBtn.set(50, 600, 975, 60);
+		MenuLogoutBtn.set(50, 700, 975, 60);
+        
+        // Draw the Menu Options
+        ofSetColor(255, 255, 255);
+        ofDrawRectangle(MenuHomeBtn);
+        ofDrawRectangle(MenuLibaryBtn);
+        ofDrawRectangle(MenuGenresBtn);
+        ofDrawRectangle(MenuSettingsBtn);
+        ofDrawRectangle(MenuAboutBtn);
+        ofDrawRectangle(MenuLogoutBtn);
+
+		// Draw the Menu Options Text
+		ofSetColor(0, 0, 0);
+		OpenSans.drawString("Home", 460, 245);
+		OpenSans.drawString("Library", 460, 345);
+        OpenSans.drawString("Genres", 460, 445);
+		OpenSans.drawString("Settings", 460, 545);
+		OpenSans.drawString("About", 460, 645);
+		OpenSans.drawString("Logout", 460, 745);
+    }
 
     // Draw the Top Navigation Bar and Search Bar
     if (MachineState != "First Time Launch") {
@@ -307,6 +336,7 @@ void ofApp::mousePressed(int x, int y, int button) {
                 json.parse(res.data);//parse response data into json object so we can work with it
                 imageURL.clear();
                 imageURL.push_back(json["images"][0]["uri"].asString());
+                cout << "URL: " << imageURL[0] << endl;
                 MachineState = "View Song";
             }
         }
@@ -314,10 +344,42 @@ void ofApp::mousePressed(int x, int y, int button) {
     else if (MachineState == "View Song") {
         cout << "Testing Push" << endl;
     }
+    else if (MachineState == "Menu Page") {
+        if (MenuBtn.inside(x, y)) {
+            // Make the menu go back to the previous page [NEED TO IMPLEMENT]
+        }
+        else if (MenuHomeBtn.inside(x, y)) {
+			cout << "Home Button Pressed" << endl;
+            ofBackground(248, 248, 255);
+			MachineState = "Home Page";
+		}
+        else if (MenuLibaryBtn.inside(x, y)) {
+			cout << "Library Button Pressed" << endl;
+            ofBackground(248, 248, 255);
+		}
+        else if (MenuGenresBtn.inside(x, y)) {
+			cout << "Genres Button Pressed" << endl;
+            ofBackground(248, 248, 255);
+		}
+        else if (MenuSettingsBtn.inside(x, y)) {
+			cout << "Settings Button Pressed" << endl;
+            ofBackground(248, 248, 255);
+		}
+        else if (MenuAboutBtn.inside(x, y)) {
+			cout << "About Button Pressed" << endl;
+            ofBackground(248, 248, 255);
+		}
+        else if (MenuLogoutBtn.inside(x, y)) {
+			cout << "Logout Button Pressed" << endl;
+            ofBackground(248, 248, 255);
+            MachineState = "First Time Launch";
+		}
+	}
 
     if (MachineState != "First Time Launch") {
         if (MenuBtn.inside(x, y)) {
             cout << "Menu Button Pressed" << endl;
+            MachineState = "Menu Page";
         }
         else if (HomeBtn.inside(x, y)) {
             cout << "Home Button Pressed" << endl;

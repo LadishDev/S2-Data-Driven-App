@@ -40,4 +40,7 @@ public:
 	// *** VIEW QUERY *** //
 	std::vector<std::string> imageURL;
 	std::vector<ofImage> artistImage;
+
+	// *** Menu Page *** //
+	ofRectangle MenuHomeBtn, MenuLibaryBtn, MenuGenresBtn, MenuSettingsBtn, MenuAboutBtn, MenuLogoutBtn;
 };

@@ -206,6 +206,19 @@ void ofApp::draw() {
 		OpenSans.drawString("About", 460, 645);
 		OpenSans.drawString("Logout", 460, 745);
     }
+    else if (MachineState == "Library Page") {
+
+
+
+
+
+
+
+
+
+
+
+	}
     else if (MachineState == "Genres Page") {
         ofSetColor(47, 79, 79);
         ofDrawRectangle(30, 250, 1015, 950);
@@ -222,7 +235,41 @@ void ofApp::draw() {
 			OpenSans.drawString(GenresName[i], 50, 295 + i * 70);
 		}
     }
+    else if (MachineState == "Settings Page") { // Not Exactly Sure What Options to currently add. However, this is a placeholder for now to show that the settings page is being worked on.
+        OpenSanstitle.drawString("Settings", 425, 250);
 
+        // Draw the Settings Options
+        ofSetColor(47, 79, 79);
+        ofDrawRectangle(50, 400, 975, 60);
+        ofDrawRectangle(50, 500, 975, 60);
+        ofDrawRectangle(50, 600, 975, 60);
+        ofDrawRectangle(50, 700, 975, 60);
+        ofDrawRectangle(50, 800, 975, 60);
+        ofDrawRectangle(50, 900, 975, 60);
+
+        // Draw the Settings Options Text
+        ofSetColor(255, 255, 255);
+        OpenSans.drawString("Option 1", 460, 445);
+        OpenSans.drawString("Option 2", 460, 545);
+        OpenSans.drawString("Option 3", 460, 645);
+        OpenSans.drawString("Option 4", 460, 745);
+        OpenSans.drawString("Option 5", 460, 845);
+        OpenSans.drawString("Option 6", 460, 945);
+    }
+
+    else if (MachineState == "About Page") {
+        OpenSanstitle.drawString("About", 460, 250);
+
+        // Draw the About Information container 
+        ofSetColor(47, 79, 79);
+        ofDrawRectangle(50, 300, 975, 600);
+
+        // Draw the About Information Text
+        ofSetColor(255, 255, 255);
+        OpenSans.drawString("This is a music application that allows you to search for music and view information about the music you search for.", 60, 350);
+        OpenSans.drawString("This application is designed to be user friendly and easy to use.", 60, 400);
+        OpenSans.drawString("You are able to save songs to come back and look back at later on or store things u wish to purchase.", 60, 450);
+	}
 
 
 
@@ -380,6 +427,7 @@ void ofApp::mousePressed(int x, int y, int button) {
         else if (MenuLibaryBtn.inside(x, y)) {
 			cout << "Library Button Pressed" << endl;
             ofBackground(248, 248, 255);
+            MachineState = "Library Page";
 		}
         else if (MenuGenresBtn.inside(x, y)) {
 			cout << "Genres Button Pressed" << endl;
@@ -393,10 +441,12 @@ void ofApp::mousePressed(int x, int y, int button) {
         else if (MenuSettingsBtn.inside(x, y)) {
 			cout << "Settings Button Pressed" << endl;
             ofBackground(248, 248, 255);
+            MachineState = "Settings Page";
 		}
         else if (MenuAboutBtn.inside(x, y)) {
 			cout << "About Button Pressed" << endl;
             ofBackground(248, 248, 255);
+            MachineState = "About Page";
 		}
         else if (MenuLogoutBtn.inside(x, y)) {
 			cout << "Logout Button Pressed" << endl;

@@ -43,4 +43,12 @@ public:
 
 	// *** Menu Page *** //
 	ofRectangle MenuHomeBtn, MenuLibaryBtn, MenuGenresBtn, MenuSettingsBtn, MenuAboutBtn, MenuLogoutBtn;
+
+	// *** Library Page *** //	
+	ofRectangle LibraryBtn[7];
+	ofRectangle LibraryViewMoreBtn[7];
+
+	// *** Genres Page *** //
+	ofRectangle GenresBtn[13];
+	vector <string> GenresName;
 };

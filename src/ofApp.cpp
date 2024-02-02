@@ -206,6 +206,30 @@ void ofApp::draw() {
 		OpenSans.drawString("About", 460, 645);
 		OpenSans.drawString("Logout", 460, 745);
     }
+    else if (MachineState == "Genres Page") {
+        ofSetColor(47, 79, 79);
+        ofDrawRectangle(30, 250, 1015, 950);
+
+        // boxes for each genre
+        ofSetColor(255, 255, 255);
+        for (int i = 0; i < 13; i++) {
+			ofDrawRectangle(GenresBtn[i]);
+		}
+
+        // Draw genre names
+        ofSetColor(0, 0, 0);
+        for (int i = 0; i < 13; i++) {
+			OpenSans.drawString(GenresName[i], 50, 295 + i * 70);
+		}
+    }
+
+
+
+
+
+
+
+
 
     // Draw the Top Navigation Bar and Search Bar
     if (MachineState != "First Time Launch") {
@@ -360,6 +384,11 @@ void ofApp::mousePressed(int x, int y, int button) {
         else if (MenuGenresBtn.inside(x, y)) {
 			cout << "Genres Button Pressed" << endl;
             ofBackground(248, 248, 255);
+            for (int i = 0; i < 13; i++) {
+                GenresBtn[i].set(35, 255 + i * 70, 1005, 65);
+            }
+            GenresName = { "Rock", "Pop", "Jazz", "Blues", "R&B", "Hip-Hop", "Country", "Electronic", "Folk", "Classical", "Reggae", "Soul", "Metal" };
+            MachineState = "Genres Page";
 		}
         else if (MenuSettingsBtn.inside(x, y)) {
 			cout << "Settings Button Pressed" << endl;
@@ -375,6 +404,21 @@ void ofApp::mousePressed(int x, int y, int button) {
             MachineState = "First Time Launch";
 		}
 	}
+    else if (MachineState == "Genres Page") {
+        for (int i = 0; i < 13; i++) {
+            if (GenresBtn[i].inside(x, y)) {
+				cout << "Genres Button " << GenresName[i] << " Pressed" << endl;
+                // ADD LOGIC TO SEARCH FOR GENRE
+                req.url = "https://api.discogs.com/database/search?genre=" + GenresName[i] + "&page=1&per_page=7";
+                res = loader.handleRequest(req);//load request into response object
+                json.parse(res.data);//parse response data into json object so we can work with it
+                cout << req.url << endl;
+                word = GenresName[i];
+				MachineState = "Search Query";
+			}
+		}
+    }
+
 
     if (MachineState != "First Time Launch") {
         if (MenuBtn.inside(x, y)) {

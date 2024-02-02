@@ -35,4 +35,9 @@ public:
 	ofRectangle TextBox; //text box for search
 	bool TextInput; //checks if text input is active
 	string word; //stores word to be searched
+
+
+	// *** VIEW QUERY *** //
+	std::vector<std::string> imageURL;
+	std::vector<ofImage> artistImage;
 };

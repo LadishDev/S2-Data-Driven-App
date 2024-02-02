@@ -6,6 +6,8 @@ void ofApp::setup() {
     req.headers["Authorization"] = "Discogs token=mTFAawaxdtKqkgVeBZovKdEwJKjUeLrKBJGPEvcU"; //sets authorization header - used to authenticate your app
     req.method = ofHttpRequest::GET;//sets request method to get (e.g. retrieve data)
 
+    imageURL.resize(7);
+    artistImage.resize(7);
 
     // set background color to Ghost White
     ofBackground(248, 248, 255);
@@ -124,11 +126,8 @@ void ofApp::draw() {
             ofSetColor(255, 255, 255);
             ofDrawRectangle(50, 265 + i * 135, 100, 100);
 
-            // Load and draw artist image
-            string imageURL = json["results"][i]["thumb"].asString();
-            ofImage artistImage;
-            artistImage.load(imageURL);
-            artistImage.draw(50, 265 + i * 135, 100, 100);
+            artistImage[i].load(imageURL[i]);
+            artistImage[i].draw(50, 265 + i * 135, 100, 100);
 
             // Draw artist name
             ofSetColor(0, 0, 0);
@@ -150,17 +149,15 @@ void ofApp::draw() {
 
         // Place poster in top left corner
         ofSetColor(255, 255, 255);
-        string imageURL = json["images"][0]["uri"].asString();
-        ofImage artistImage;
-        artistImage.load(imageURL);
-        artistImage.draw(50, 265, 200, 200);
+        artistImage[0].load(imageURL[0]);
+        artistImage[0].draw(50, 265, 200, 200);
 
         // Draw artist name
         ofSetColor(255, 255, 255);
-        OpenSans.drawString(json["title"].asString(), 255, 310);
+        OpenSans.drawString(json["title"].asString(), 260, 310);
 
         // Draw Release Year
-        OpenSans.drawString("Release Date: " + json["released"].asString(), 255, 420);
+        OpenSans.drawString("Release Date: " + json["released"].asString(), 260, 420);
 
         // Draw genre and print out all the values within the array
         OpenSans.drawString("Genre: ", 70, 520);
@@ -246,8 +243,8 @@ void ofApp::keyPressed(int key) {
                 }
                 // if end of string is a + sign then remove it
                 if (artist[artist.length() - 1] == '+') {
-					artist.pop_back();
-				}
+                    artist.pop_back();
+                }
                 // set the request url to the search query
                 req.url = "https://api.discogs.com/database/search?artist=" + artist + "&track=" + track + "&page=1&per_page=7";
                 res = loader.handleRequest(req);//load request into response object
@@ -256,9 +253,9 @@ void ofApp::keyPressed(int key) {
             else {
                 for (int i = 0; i < word.length(); i++) {
                     if (word[i] == ' ') {
-						word[i] = '+';
-					}
-				}
+                        word[i] = '+';
+                    }
+                }
                 // set the request url to the search query
                 req.url = "https://api.discogs.com/database/search?track=" + word + "&page=1&per_page=7";
                 res = loader.handleRequest(req);//load request into response object
@@ -266,13 +263,19 @@ void ofApp::keyPressed(int key) {
             }
             cout << req.url << endl;
             // set the request url to the search query
+            imageURL.clear();
+            for (int i = 0; i < json["results"].size(); ++i) {
+                string url = json["results"][i]["thumb"].asString();
+                imageURL.push_back(url);
+                cout << "URL[" << i << "]: " << url << endl;
+            }
             word = "";
             TextInput = false;
             MachineState = "Search Query";
-		}
+        }
         else {
-			ofUTF8Append(word, key);
-		}
+            ofUTF8Append(word, key);
+        }
     }
 }
 
@@ -293,18 +296,23 @@ void ofApp::mousePressed(int x, int y, int button) {
     else if (MachineState == "Home Page") {
 
     }
-    else if (MachineState == "Search Query") {
+    else if (MachineState == "Search Query") { //if on search query page
         for (int i = 0; i < 7; ++i) {
-            if (ViewMoreBtn[i].inside(x, y)) {
+            if (ViewMoreBtn[i].inside(x, y)) { //if view more button for result i is pressed
                 cout << "View More Button Pressed: " << i << endl;
 
                 req.url = json["results"][i]["resource_url"].asString();
                 cout << req.url << endl;
                 res = loader.handleRequest(req);//load request into response object
                 json.parse(res.data);//parse response data into json object so we can work with it
+                imageURL.clear();
+                imageURL.push_back(json["images"][0]["uri"].asString());
                 MachineState = "View Song";
             }
         }
+    }
+    else if (MachineState == "View Song") {
+        cout << "Testing Push" << endl;
     }
 
     if (MachineState != "First Time Launch") {
@@ -316,12 +324,12 @@ void ofApp::mousePressed(int x, int y, int button) {
             ofBackground(248, 248, 255);
             MachineState = "Home Page";
         }
-        if (TextBox.inside(x, y) && TextInput == false) {
+        if (TextBox.inside(x, y) && TextInput == false) { //if text box is pressed and text input is not active
             TextInput = true;
             word = "";
         }
         else {
-            TextInput = false;
+            TextInput = false; 
         }
     }
 }
@@ -331,7 +339,7 @@ void ofApp::mouseReleased(int x, int y, int button) {
 
 }
 
-bool ofApp::validKey(int key) {
+bool ofApp::validKey(int key) { //checks if key is valid for search (i.e. not a modifier key)
     if (key == OF_KEY_ALT || key == OF_KEY_CONTROL || key == OF_KEY_SHIFT || key == OF_KEY_COMMAND) {
 		return false;
 	}

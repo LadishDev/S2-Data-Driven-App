@@ -225,7 +225,7 @@ void ofApp::draw() {
         // boxes for each genre
         ofSetColor(255, 255, 255);
         for (int i = 0; i < 12; i++) {
-			ofDrawRectangle(GenresBtn[i]);
+		    ofDrawRectangle(GenresBtn[i]);
 		}
 
         // Draw genre names
@@ -409,6 +409,9 @@ void ofApp::mousePressed(int x, int y, int button) {
     }
     else if (MachineState == "View Song") {
         cout << "Testing Push" << endl;
+
+        // Save the song to the library
+        saveToLibrary();
     }
     else if (MachineState == "Menu Page") {
         if (MenuBtn.inside(x, y)) {
@@ -453,7 +456,6 @@ void ofApp::mousePressed(int x, int y, int button) {
         for (int i = 0; i < 13; i++) {
             if (GenresBtn[i].inside(x, y)) {
 				cout << "Genres Button " << GenresName[i] << " Pressed" << endl;
-                // ADD LOGIC TO SEARCH FOR GENRE
                 req.url = "https://api.discogs.com/database/search?genre=" + GenresName[i] + "&page=1&per_page=7";
                 res = loader.handleRequest(req);//load request into response object
                 json.parse(res.data);//parse response data into json object so we can work with it
@@ -497,4 +499,35 @@ bool ofApp::validKey(int key) { //checks if key is valid for search (i.e. not a 
     else {
 		return true;
 	}
+}
+
+// Add a method to save the song to the library
+void ofApp::saveToLibrary() {
+    // Create a JSON object to store the song information
+    ofJson songInfo;
+    songInfo["title"] = json["title"].asString();
+    songInfo["release_date"] = json["released"].asString();
+
+    // Create a vector of strings to store the genres and styles
+    vector<string> genres;
+    vector<string> styles;
+
+    // Iterate through the JSON array and store the values in the vectors
+    for (int i = 0; i < json["genres"].size(); ++i) {
+		genres.push_back(json["genres"][i].asString());
+	}
+
+    for (int i = 0; i < json["styles"].size(); ++i) {
+        styles.push_back(json["styles"][i].asString());
+    }
+
+    songInfo["genres"] = genres;
+    songInfo["styles"] = styles;
+
+    songInfo["image_url"] = json["images"][0]["uri"].asString();
+
+    // Append the song information to the library JSON file
+    std::ofstream libraryFile("/data/library.json", std::ios::app);
+    libraryFile << songInfo.dump() << std::endl;
+    libraryFile.close();
 }

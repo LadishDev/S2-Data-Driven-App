@@ -17,6 +17,9 @@ public:
 	void mouseReleased(int x, int y, int button);
 	bool validKey(int key); //checks if key is valid for search
 
+	// Save Data to File to be used in Library
+	void saveToLibrary();
+
 	ofHttpRequest req;//handles request to API
 	ofHttpResponse res;//handles response from API
 	ofURLFileLoader loader;//object to load data

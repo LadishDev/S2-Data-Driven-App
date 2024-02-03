@@ -126,7 +126,6 @@ void ofApp::draw() {
             ofSetColor(255, 255, 255);
             ofDrawRectangle(50, 265 + i * 135, 100, 100);
 
-            artistImage[i].load(imageURL[i]);
             artistImage[i].draw(50, 265 + i * 135, 100, 100);
 
             // Draw artist name
@@ -149,7 +148,6 @@ void ofApp::draw() {
 
         // Place poster in top left corner
         ofSetColor(255, 255, 255);
-        artistImage[0].load(imageURL[0]);
         artistImage[0].draw(50, 265, 200, 200);
 
         // Draw artist name
@@ -207,14 +205,15 @@ void ofApp::draw() {
 		OpenSans.drawString("Logout", 460, 745);
     }
     else if (MachineState == "Library Page") {
+        ofSetColor(0);
+        OpenSanstitle.drawString("Library", 405, 230);
 
+         // Big container for the library items
+        ofSetColor(47, 79, 79);
+        ofDrawRectangle(30, 250, 1015, 950);
 
-
-
-
-
-
-
+        // Draw Album Art and Album Name
+        ofSetColor(255, 255, 255);
 
 
 
@@ -269,14 +268,8 @@ void ofApp::draw() {
         OpenSans.drawString("This is a music application that allows you to search for music and view information about the music you search for.", 60, 350);
         OpenSans.drawString("This application is designed to be user friendly and easy to use.", 60, 400);
         OpenSans.drawString("You are able to save songs to come back and look back at later on or store things u wish to purchase.", 60, 450);
+        OpenSans.drawString("You can use the search feature to search for song titles. If u want to search by artist and song name u can use this format (Artist - Song Name)", 60, 500);
 	}
-
-
-
-
-
-
-
 
     // Draw the Top Navigation Bar and Search Bar
     if (MachineState != "First Time Launch") {
@@ -368,6 +361,7 @@ void ofApp::keyPressed(int key) {
                 string url = json["results"][i]["thumb"].asString();
                 imageURL.push_back(url);
                 cout << "URL[" << i << "]: " << url << endl;
+                artistImage[i].load(imageURL[i]);
             }
             word = "";
             TextInput = false;
@@ -408,6 +402,7 @@ void ofApp::mousePressed(int x, int y, int button) {
                 imageURL.clear();
                 imageURL.push_back(json["images"][0]["uri"].asString());
                 cout << "URL: " << imageURL[0] << endl;
+                artistImage[0].load(imageURL[0]);
                 MachineState = "View Song";
             }
         }
@@ -463,7 +458,7 @@ void ofApp::mousePressed(int x, int y, int button) {
                 res = loader.handleRequest(req);//load request into response object
                 json.parse(res.data);//parse response data into json object so we can work with it
                 cout << req.url << endl;
-                word = GenresName[i];
+                WordSearched = GenresName[i];
 				MachineState = "Search Query";
 			}
 		}

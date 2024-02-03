@@ -433,6 +433,7 @@ void ofApp::mousePressed(int x, int y, int button) {
         else if (MenuLibaryBtn.inside(x, y)) {
 			cout << "Library Button Pressed" << endl;
             ofBackground(248, 248, 255);
+            loadLibrary();
             MachineState = "Library Page";
 		}
         else if (MenuGenresBtn.inside(x, y)) {
@@ -511,6 +512,20 @@ bool ofApp::validKey(int key) { //checks if key is valid for search (i.e. not a 
 
 // Add a method to save the song to the library
 void ofApp::saveToLibrary() {
+    // Load the library JSON file
+    ofJson library;
+    std::ifstream libraryFile("data/library.json");
+    if (libraryFile.is_open()) {
+        libraryFile >> library;
+        libraryFile.close();
+    }
+
+    // Get the next valid number
+    int nextNumber = 0;
+    if (!library.empty()) {
+        nextNumber = library["results"].size();
+    }
+
     // Create a JSON object to store the song information
     ofJson songInfo;
     songInfo["title"] = json["title"].asString();
@@ -522,8 +537,8 @@ void ofApp::saveToLibrary() {
 
     // Iterate through the JSON array and store the values in the vectors
     for (int i = 0; i < json["genres"].size(); ++i) {
-		genres.push_back(json["genres"][i].asString());
-	}
+        genres.push_back(json["genres"][i].asString());
+    }
 
     for (int i = 0; i < json["styles"].size(); ++i) {
         styles.push_back(json["styles"][i].asString());
@@ -533,10 +548,49 @@ void ofApp::saveToLibrary() {
     songInfo["styles"] = styles;
 
     songInfo["image_url"] = json["images"][0]["uri"].asString();
+    songInfo["discogs_url"] = json["uri"].asString();
 
     // Append the song information to the library JSON file
-    std::ofstream libraryFile("data/library.json", std::ios::app);
-    libraryFile << songInfo.dump() << std::endl;
+    library["results"][std::to_string(nextNumber)] = songInfo;
+
+    std::ofstream libraryFileOut("data/library.json");
+    if (libraryFileOut.is_open()) {
+        libraryFileOut << library.dump(4) << std::endl;
+        libraryFileOut.close();
+        cout << "Song added to library" << endl;
+    }
+    else {
+        cout << "Failed to open library file for writing" << endl;
+    }
+}
+
+void ofApp::loadLibrary() {
+    // Load the library JSON file
+    std::ifstream libraryFile("data/library.json");
+    ofJson library;
+    libraryFile >> library;
     libraryFile.close();
-    cout << "Song added to library" << endl;
-} 
+
+    // Iterate through the library and print out the song information
+    for (auto& song : library["results"]) {
+        cout << "-----------------------------------" << endl;
+		cout << "Title: " << song["title"] << endl;
+		cout << "Release Date: " << song["release_date"] << endl;
+		cout << "Genres: ";
+        for (auto& genre : song["genres"]) {
+			cout << genre << " ";
+		}
+		cout << endl;
+		cout << "Styles: ";
+        for (auto& style : song["styles"]) {
+			cout << style << " ";
+		}
+		cout << endl;
+		cout << "Image URL: " << song["image_url"] << endl;
+		cout << "Discogs URL: " << song["discogs_url"] << endl;
+        cout << "-----------------------------------" << endl;
+
+	}
+
+    cout << "Library loaded" << endl;
+}

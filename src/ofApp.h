@@ -17,7 +17,7 @@ public:
 	void mouseReleased(int x, int y, int button);
 	bool validKey(int key); //checks if key is valid for search
 
-	// Save Data to File to be used in Library
+	// Libary Functions 
 	void saveToLibrary();
 
 	ofHttpRequest req;//handles request to API
@@ -43,6 +43,7 @@ public:
 	// *** VIEW QUERY *** //
 	std::vector<std::string> imageURL;
 	std::vector<ofImage> artistImage;
+	ofRectangle addToLibraryBtn, viewOnDiscogsBtn;
 
 	// *** Menu Page *** //
 	ofRectangle MenuHomeBtn, MenuLibaryBtn, MenuGenresBtn, MenuSettingsBtn, MenuAboutBtn, MenuLogoutBtn;

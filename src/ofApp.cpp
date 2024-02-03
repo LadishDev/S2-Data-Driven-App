@@ -171,8 +171,10 @@ void ofApp::draw() {
 
         // View on Discogs Button
         ofSetColor(255, 255, 255);
-        ofDrawRectangle(40, 1130, 994, 60);
+        ofDrawRectangle(addToLibraryBtn);
+        ofDrawRectangle(viewOnDiscogsBtn);
         ofSetColor(0, 0, 0);
+        OpenSans.drawString("Add to Library", 380, 1102);
         OpenSans.drawString("View on Discogs", 380, 1172);
     }
     else if (MachineState == "Menu Page") {
@@ -403,15 +405,21 @@ void ofApp::mousePressed(int x, int y, int button) {
                 imageURL.push_back(json["images"][0]["uri"].asString());
                 cout << "URL: " << imageURL[0] << endl;
                 artistImage[0].load(imageURL[0]);
+                addToLibraryBtn.set(40, 1060, 994, 60);
+                viewOnDiscogsBtn.set(40, 1130, 994, 60);
                 MachineState = "View Song";
             }
         }
     }
     else if (MachineState == "View Song") {
-        cout << "Testing Push" << endl;
-
-        // Save the song to the library
-        saveToLibrary();
+        if (addToLibraryBtn.inside(x, y)) {
+            cout << "Add to Library Button Pressed" << endl;
+            saveToLibrary(); // Save song to Libary
+        }
+        else if (viewOnDiscogsBtn.inside(x, y)) {
+            cout << "View on Discogs Button Pressed" << endl;
+            ofLaunchBrowser(json["uri"].asString());
+        }
     }
     else if (MachineState == "Menu Page") {
         if (MenuBtn.inside(x, y)) {
@@ -530,4 +538,5 @@ void ofApp::saveToLibrary() {
     std::ofstream libraryFile("/data/library.json", std::ios::app);
     libraryFile << songInfo.dump() << std::endl;
     libraryFile.close();
-}
+    cout << "Song added to library" << endl;
+} 

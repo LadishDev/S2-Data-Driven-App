@@ -535,7 +535,7 @@ void ofApp::saveToLibrary() {
     songInfo["image_url"] = json["images"][0]["uri"].asString();
 
     // Append the song information to the library JSON file
-    std::ofstream libraryFile("/data/library.json", std::ios::app);
+    std::ofstream libraryFile("data/library.json", std::ios::app);
     libraryFile << songInfo.dump() << std::endl;
     libraryFile.close();
     cout << "Song added to library" << endl;

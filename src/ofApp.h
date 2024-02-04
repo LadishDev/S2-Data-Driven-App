@@ -65,5 +65,5 @@ public:
 
 	// *** Genres Page *** //
 	ofRectangle GenresBtn[12];
-	vector <string> GenresName = { "Rock", "Pop", "Jazz", "Blues", "Hip-Hop", "Country", "Electronic", "Folk", "Classical", "Reggae", "Soul", "Metal" };
+	vector <string> GenresName = { "Rock", "Pop", "Jazz", "Blues", "Hip-Hop", "Country", "Electronic", "Folk", "Classical", "Reggae", "Soul"};
 };

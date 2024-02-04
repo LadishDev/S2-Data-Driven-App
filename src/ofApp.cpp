@@ -411,35 +411,61 @@ void ofApp::mousePressed(int x, int y, int button) {
         }
     }
     else if (MachineState == "Home Page") {
-        for (int i = 0; i < 13; i++) {
-            if (SongBtn1[i].inside(x, y)) {
-				cout << "Song Button " << i << " Pressed" << endl;
-				req.url = json["results"][i]["resource_url"].asString();
-				res = loader.handleRequest(req);//load request into response object
-				json.parse(res.data);//parse response data into json object so we can work with it
-				cout << req.url << endl;
-            }
-            else if (SongBtn2[i].inside(x, y)) {
-                cout << "Song Button " << i << " Pressed" << endl;
-                req.url = json2["results"][i]["resource_url"].asString();
-                res = loader.handleRequest(req);//load request into response object
-                json.parse(res.data);//parse response data into json object so we can work with it
-                cout << req.url << endl;
-            }
-            else if (SongBtn3[i].inside(x, y)) {
-				cout << "Song Button " << i << " Pressed" << endl;
-				req.url = json3["results"][i]["resource_url"].asString();
-				res = loader.handleRequest(req);//load request into response object
-				json.parse(res.data);//parse response data into json object so we can work with it
-				cout << req.url << endl;
-			}
-            imageURL.clear();
-            imageURL.push_back(json["images"][0]["uri"].asString());
-            artistImage[0].load(imageURL[0]);
-            addToLibraryBtn.set(40, 1060, 994, 60);
-            viewOnDiscogsBtn.set(40, 1130, 994, 60);
-            MachineState = "View Song";
+        if (SongBtn1[0].inside(x, y)) {
+            req.url = json["results"][0]["resource_url"].asString();
         }
+        else if (SongBtn1[1].inside(x, y)) {
+			req.url = json["results"][1]["resource_url"].asString();
+		}
+		else if (SongBtn1[2].inside(x, y)) {
+			req.url = json["results"][2]["resource_url"].asString();
+		}
+		else if (SongBtn1[3].inside(x, y)) {
+			req.url = json["results"][3]["resource_url"].asString();
+		}
+		else if (SongBtn1[4].inside(x, y)) {
+			req.url = json["results"][4]["resource_url"].asString();
+        }
+        else if (SongBtn2[0].inside(x, y)) {
+            req.url = json2["results"][0]["resource_url"].asString();
+        }
+        else if (SongBtn2[1].inside(x, y)) {
+			req.url = json2["results"][1]["resource_url"].asString();
+		}
+        else if (SongBtn2[2].inside(x, y)) {
+			req.url = json2["results"][2]["resource_url"].asString();
+		}
+        else if (SongBtn2[3].inside(x, y)) {
+			req.url = json2["results"][3]["resource_url"].asString();
+		}
+        else if (SongBtn2[4].inside(x, y)) {
+			req.url = json2["results"][4]["resource_url"].asString();
+		}
+        else if (SongBtn3[0].inside(x, y)) {
+			req.url = json3["results"][0]["resource_url"].asString();
+		}
+        else if (SongBtn3[1].inside(x, y)) {
+			req.url = json3["results"][1]["resource_url"].asString();
+		}
+        else if (SongBtn3[2].inside(x, y)) {
+			req.url = json3["results"][2]["resource_url"].asString();
+		}
+        else if (SongBtn3[3].inside(x, y)) {
+			req.url = json3["results"][3]["resource_url"].asString();
+		}
+        else if (SongBtn3[4].inside(x, y)) {
+			req.url = json3["results"][4]["resource_url"].asString();
+		}
+        res = loader.handleRequest(req);//load request into response object
+        json.parse(res.data);//parse response data into json object so we can work with it
+        cout << req.url << endl;
+        imageURL.clear();
+        imageURL.push_back(json["images"][0]["uri"].asString());
+        artistImage[0].load(imageURL[0]);
+        addToLibraryBtn.set(40, 1060, 994, 60);
+        viewOnDiscogsBtn.set(40, 1130, 994, 60);
+        ofBackground(248, 248, 255);
+        MachineState = "View Song";
     }
     else if (MachineState == "Search Query") { //if on search query page
         for (int i = 0; i < 7; ++i) {
@@ -455,6 +481,7 @@ void ofApp::mousePressed(int x, int y, int button) {
                 artistImage[0].load(imageURL[0]);
                 addToLibraryBtn.set(40, 1060, 994, 60);
                 viewOnDiscogsBtn.set(40, 1130, 994, 60);
+                ofBackground(248, 248, 255);
                 MachineState = "View Song";
             }
         }
@@ -573,7 +600,7 @@ void ofApp::loadHomePage() {
     // get random value from genres array
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<> dis(0, GenresName.size()+1);
+    std::uniform_int_distribution<> dis(0, GenresName.size());
     string genre = GenresName[dis(gen)];
     req.url = "https://api.discogs.com/database/search?genre=" + genre + "&page=1&per_page=5";
     res = loader.handleRequest(req);//load request into response object
@@ -586,7 +613,7 @@ void ofApp::loadHomePage() {
     do {
         std::random_device rd2;
         std::mt19937 gen2(rd2());
-        std::uniform_int_distribution<> dis2(0, GenresName.size()+1);
+        std::uniform_int_distribution<> dis2(0, GenresName.size());
         genre2 = GenresName[dis2(gen2)];
     } while (genre2 == genre);  // Ensure the second genre is different from the first one
     req.url = "https://api.discogs.com/database/search?genre=" + genre2 + "&page=1&per_page=5";

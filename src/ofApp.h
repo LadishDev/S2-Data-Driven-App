@@ -26,7 +26,7 @@ public:
 	ofHttpRequest req;//handles request to API
 	ofHttpResponse res;//handles response from API
 	ofURLFileLoader loader;//object to load data
-	ofxJSONElement json, json2, json3;//object to store data
+	ofxJSONElement json;//object to store data
 	
 	ofTrueTypeFont OpenSans;//font object
 	ofTrueTypeFont OpenSanstitle;//font object
@@ -49,12 +49,14 @@ public:
 
 	vector<ofImage> HomeartistImage1, HomeartistImage2, HomeartistImage3;
 	vector<string> imageURL1, imageURL2, imageURL3;
+	ofxJSONElement homePagejson1, homePagejson2, homePagejson3;
 
 
 	// *** VIEW QUERY *** //
 	std::vector<std::string> imageURL;
 	std::vector<ofImage> artistImage;
 	ofRectangle addToLibraryBtn, viewOnDiscogsBtn;
+	ofRectangle confirmationBtn;
 
 	// *** Menu Page *** //
 	ofRectangle MenuHomeBtn, MenuLibaryBtn, MenuGenresBtn, MenuSettingsBtn, MenuAboutBtn, MenuLogoutBtn;

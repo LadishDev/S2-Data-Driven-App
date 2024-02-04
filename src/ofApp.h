@@ -68,4 +68,10 @@ public:
 	// *** Genres Page *** //
 	ofRectangle GenresBtn[12];
 	vector <string> GenresName = { "Rock", "Pop", "Jazz", "Blues", "Hip-Hop", "Country", "Electronic", "Folk", "Classical", "Reggae", "Soul"};
+
+	// *** Library Page *** //
+	ofJson library; //object to store library data
+	vector<ofImage> libraryImages;
+	vector<string> libraryURLs;
+	ofRectangle libraryFrame;
 };

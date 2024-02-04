@@ -11,6 +11,7 @@ void ofApp::setup() {
     HomeartistImage1.resize(5);
     HomeartistImage2.resize(5);
     HomeartistImage3.resize(5);
+    libraryImages.resize(15);
 
     // set background color to Ghost White
     ofBackground(248, 248, 255);
@@ -234,18 +235,24 @@ void ofApp::draw() {
         // Draw Album Art and Album Name
         ofSetColor(255, 255, 255);
 
-        for (int i = 0; i < 7; i++) {
-            ofDrawRectangle(20 + i * 210, 256, 200, 290);
-		}
 
 
-        //ofDrawRectangle(20, 205, 200, 290);
-        //ofDrawRectangle(240, 205, 200, 290);
-        //ofDrawRectangle(445, 205, 200, 290);
-        //ofDrawRectangle(655, 205, 200, 290);
-        //ofDrawRectangle(865, 205, 200, 290);
+        for (int i = 0; i < library["results"].size(); ++i) {
+            libraryFrame.set(20 + i * 210, 256, 200, 290);
+            // Make sure the index is within the size of libraryImages
+            if (i < libraryImages.size()) {
+                libraryImages[i].draw(libraryFrame);
+            }
+        }
 
 
+
+
+        /*
+        for (int i = 0; i < library["results"].size() && i < 7; i++) {
+            libraryFrame.set(20 + i * 210, 256, 200, 290);
+            ofDrawRectangle(libraryFrame);
+        }*/
 	}
     else if (MachineState == "Genres Page") {
         ofSetColor(47, 79, 79);
@@ -427,7 +434,7 @@ void ofApp::mousePressed(int x, int y, int button) {
             MachineState = "Home Page";
         }
     }
-        else if (MachineState == "Home Page") {
+    else if (MachineState == "Home Page") {
         if (SongBtn1[0].inside(x, y) || SongBtn1[1].inside(x, y) || SongBtn1[2].inside(x, y) || SongBtn1[3].inside(x, y) || SongBtn1[4].inside(x, y) ||
             SongBtn2[0].inside(x, y) || SongBtn2[1].inside(x, y) || SongBtn2[2].inside(x, y) || SongBtn2[3].inside(x, y) || SongBtn2[4].inside(x, y) ||
             SongBtn3[0].inside(x, y) || SongBtn3[1].inside(x, y) || SongBtn3[2].inside(x, y) || SongBtn3[3].inside(x, y) || SongBtn3[4].inside(x, y)) {
@@ -657,6 +664,7 @@ void ofApp::mouseReleased(int x, int y, int button) {
 
 }
 
+//--------------------------------------------------------------
 bool ofApp::validKey(int key) { //checks if key is valid for search (i.e. not a modifier key)
     if (key == OF_KEY_ALT || key == OF_KEY_CONTROL || key == OF_KEY_SHIFT || key == OF_KEY_COMMAND) {
 		return false;
@@ -666,6 +674,7 @@ bool ofApp::validKey(int key) { //checks if key is valid for search (i.e. not a 
 	}
 }
 
+//--------------------------------------------------------------
 void ofApp::loadHomePage() {
 
     // First Section Data
@@ -721,7 +730,7 @@ void ofApp::loadHomePage() {
 	}
 }
 
-
+//--------------------------------------------------------------
 // Add a method to save the song to the library
 void ofApp::saveToLibrary() {
     // Load the library JSON file
@@ -732,11 +741,13 @@ void ofApp::saveToLibrary() {
         libraryFile.close();
     }
 
-    // Get the next valid number
-    int nextNumber = 0;
-    if (!library.empty()) {
-        nextNumber = library["results"].size();
+    // Ensure "results" key is present
+    if (!library.contains("results") || !library["results"].is_array()) {
+        library["results"] = ofJson::array();
     }
+
+    // Get the next valid number
+    int nextNumber = library["results"].size();
 
     // Create a JSON object to store the song information
     ofJson songInfo;
@@ -763,7 +774,7 @@ void ofApp::saveToLibrary() {
     songInfo["discogs_url"] = json["uri"].asString();
 
     // Append the song information to the library JSON file
-    library["results"][std::to_string(nextNumber)] = songInfo;
+    library["results"].push_back(songInfo);
 
     std::ofstream libraryFileOut("data/library.json");
     if (libraryFileOut.is_open()) {
@@ -776,32 +787,37 @@ void ofApp::saveToLibrary() {
     }
 }
 
+
+//--------------------------------------------------------------
 void ofApp::loadLibrary() {
-    // Load the library JSON file
     std::ifstream libraryFile("data/library.json");
-    ofJson library;
     libraryFile >> library;
     libraryFile.close();
 
-    // Iterate through the library and print out the song information
-    for (auto& song : library["results"]) {
-        cout << "-----------------------------------" << endl;
-		cout << "Title: " << song["title"] << endl;
-		cout << "Release Date: " << song["release_date"] << endl;
-		cout << "Genres: ";
-        for (auto& genre : song["genres"]) {
-			cout << genre << " ";
-		}
-		cout << endl;
-		cout << "Styles: ";
-        for (auto& style : song["styles"]) {
-			cout << style << " ";
-		}
-		cout << endl;
-		cout << "Image URL: " << song["image_url"] << endl;
-		cout << "Discogs URL: " << song["discogs_url"] << endl;
-        cout << "-----------------------------------" << endl;
+    // Clear existing data
+    libraryURLs.clear();
+    libraryImages.clear();
 
-	}
-    cout << "Library loaded" << endl;
+    // Ensure library["results"] is an array
+    if (library["results"].is_array()) {
+        // Resize libraryImages to match the size of library["results"]
+        libraryImages.resize(library["results"].size());
+
+        // Iterate over the items in the "results" array
+        for (int i = 0; i < library["results"].size(); ++i) {
+            // Access fields using the keys
+            string url = library["results"][i]["image_url"].get<string>();
+            libraryURLs.push_back(url);
+            cout << "URL: " << url << endl;
+
+            // Make sure libraryImages[i] is properly initialized
+            libraryImages[i].clear();
+            libraryImages[i].load(url);
+        }
+
+        cout << "Library loaded" << endl;
+    }
+    else {
+        cout << "Invalid library format: 'results' is not an array" << endl;
+    }
 }

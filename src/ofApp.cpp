@@ -8,6 +8,9 @@ void ofApp::setup() {
 
     imageURL.resize(7);
     artistImage.resize(7);
+    HomeartistImage1.resize(5);
+    HomeartistImage2.resize(5);
+    HomeartistImage3.resize(5);
 
     // set background color to Ghost White
     ofBackground(248, 248, 255);
@@ -75,33 +78,46 @@ void ofApp::draw() {
     else if (MachineState == "Home Page") {
         // First Section
         ofSetColor(47, 79, 79);
-        ofDrawRectangle(30, 200, 1015, 300);
-        ofSetColor(255, 255, 255);
-        ofDrawRectangle(35, 205, 200, 290);
-        ofDrawRectangle(245, 205, 200, 290);
-        ofDrawRectangle(455, 205, 200, 290);
-        ofDrawRectangle(665, 205, 200, 290);
-        ofDrawRectangle(875, 205, 170, 290);
+        ofDrawRectangle(15, 200, 1050, 300);
+
+        // Draw artist images within rectangles
+        for (int i = 0; i < json["results"].size(); ++i) {
+            // Draw combined rectangle for image
+            ofSetColor(255, 255, 255);
+            SongBtn1[i].set(20 + i * 210, 205, 200, 290);
+            ofDrawRectangle(SongBtn1[i]);
+
+            // Draw artist image within the rectangle
+            HomeartistImage1[i].draw(20 + i * 210, 205, 200, 290);
+        }
 
         // Second Section
         ofSetColor(47, 79, 79);
-        ofDrawRectangle(30, 550, 1015, 300);
-        ofSetColor(255, 255, 255);
-        ofDrawRectangle(35, 555, 200, 290);
-        ofDrawRectangle(245, 555, 200, 290);
-        ofDrawRectangle(455, 555, 200, 290);
-        ofDrawRectangle(665, 555, 200, 290);
-        ofDrawRectangle(875, 555, 170, 290);
+        ofDrawRectangle(15, 550, 1050, 300);
+
+        for (int i = 0; i < json2["results"].size(); ++i) {
+            // Draw combined rectangle for image
+            ofSetColor(255, 255, 255);
+            SongBtn2[i].set(20 + i * 210, 555, 200, 290);
+            ofDrawRectangle(SongBtn2[i]);
+
+            // Draw artist image within the rectangle
+            HomeartistImage2[i].draw(20 + i * 210, 555, 200, 290);
+        }
 
         // Third Section
         ofSetColor(47, 79, 79);
-        ofDrawRectangle(30, 900, 1015, 300);
-        ofSetColor(255, 255, 255);
-        ofDrawRectangle(35, 905, 200, 290);
-        ofDrawRectangle(245, 905, 200, 290);
-        ofDrawRectangle(455, 905, 200, 290);
-        ofDrawRectangle(665, 905, 200, 290);
-        ofDrawRectangle(875, 905, 170, 290);
+        ofDrawRectangle(15, 900, 1050, 300);
+
+        for (int i = 0; i < json3["results"].size(); ++i) {
+            // Draw combined rectangle for image
+            ofSetColor(255, 255, 255);
+            SongBtn3[i].set(20 + i * 210, 905, 200, 290);
+            ofDrawRectangle(SongBtn3[i]);
+
+            // Draw artist image within the rectangle
+            HomeartistImage3[i].draw(20 + i * 210, 905, 200, 290);
+        }
     } 
     else if (MachineState == "Search Query") {
         OpenSans.drawString("Results For " + WordSearched, 100, 210);
@@ -216,7 +232,11 @@ void ofApp::draw() {
 
         // Draw Album Art and Album Name
         ofSetColor(255, 255, 255);
-
+        ofDrawRectangle(35, 255, 190, 290);
+        ofDrawRectangle(240, 255, 190, 290);
+        ofDrawRectangle(445, 255, 190, 290);
+        ofDrawRectangle(655, 255, 190, 290);
+        ofDrawRectangle(865, 255, 190, 290);
 
 
 	}
@@ -386,17 +406,45 @@ void ofApp::mousePressed(int x, int y, int button) {
         if (LoginBtn.inside(x, y)) {
             cout << "Login Button Pressed" << endl;
             ofBackground(248, 248, 255);
+            loadHomePage();
             MachineState = "Home Page";
         }
     }
     else if (MachineState == "Home Page") {
-
+        for (int i = 0; i < 13; i++) {
+            if (SongBtn1[i].inside(x, y)) {
+				cout << "Song Button " << i << " Pressed" << endl;
+				req.url = json["results"][i]["resource_url"].asString();
+				res = loader.handleRequest(req);//load request into response object
+				json.parse(res.data);//parse response data into json object so we can work with it
+				cout << req.url << endl;
+            }
+            else if (SongBtn2[i].inside(x, y)) {
+                cout << "Song Button " << i << " Pressed" << endl;
+                req.url = json2["results"][i]["resource_url"].asString();
+                res = loader.handleRequest(req);//load request into response object
+                json.parse(res.data);//parse response data into json object so we can work with it
+                cout << req.url << endl;
+            }
+            else if (SongBtn3[i].inside(x, y)) {
+				cout << "Song Button " << i << " Pressed" << endl;
+				req.url = json3["results"][i]["resource_url"].asString();
+				res = loader.handleRequest(req);//load request into response object
+				json.parse(res.data);//parse response data into json object so we can work with it
+				cout << req.url << endl;
+			}
+            imageURL.clear();
+            imageURL.push_back(json["images"][0]["uri"].asString());
+            artistImage[0].load(imageURL[0]);
+            addToLibraryBtn.set(40, 1060, 994, 60);
+            viewOnDiscogsBtn.set(40, 1130, 994, 60);
+            MachineState = "View Song";
+        }
     }
     else if (MachineState == "Search Query") { //if on search query page
         for (int i = 0; i < 7; ++i) {
             if (ViewMoreBtn[i].inside(x, y)) { //if view more button for result i is pressed
                 cout << "View More Button Pressed: " << i << endl;
-
                 req.url = json["results"][i]["resource_url"].asString();
                 cout << req.url << endl;
                 res = loader.handleRequest(req);//load request into response object
@@ -428,6 +476,7 @@ void ofApp::mousePressed(int x, int y, int button) {
         else if (MenuHomeBtn.inside(x, y)) {
 			cout << "Home Button Pressed" << endl;
             ofBackground(248, 248, 255);
+            loadHomePage();
 			MachineState = "Home Page";
 		}
         else if (MenuLibaryBtn.inside(x, y)) {
@@ -442,7 +491,6 @@ void ofApp::mousePressed(int x, int y, int button) {
             for (int i = 0; i < 12; i++) {
                 GenresBtn[i].set(35, 255 + i * 70, 1005, 65);
             }
-            GenresName = { "Rock", "Pop", "Jazz", "Blues", "R&B", "Hip-Hop", "Country", "Electronic", "Folk", "Classical", "Reggae", "Soul", "Metal" };
             MachineState = "Genres Page";
 		}
         else if (MenuSettingsBtn.inside(x, y)) {
@@ -484,7 +532,10 @@ void ofApp::mousePressed(int x, int y, int button) {
         else if (HomeBtn.inside(x, y)) {
             cout << "Home Button Pressed" << endl;
             ofBackground(248, 248, 255);
-            MachineState = "Home Page";
+            if (MachineState != "Home Page") {
+                loadHomePage();
+                MachineState = "Home Page";
+            }
         }
         if (TextBox.inside(x, y) && TextInput == false) { //if text box is pressed and text input is not active
             TextInput = true;
@@ -509,6 +560,62 @@ bool ofApp::validKey(int key) { //checks if key is valid for search (i.e. not a 
 		return true;
 	}
 }
+
+void ofApp::loadHomePage() {
+
+    // First Section Data
+    req.url = "https://api.discogs.com/database/search?type=release&sort=hot&page=1&per_page=5";
+    res = loader.handleRequest(req);//load request into response object
+    json.parse(res.data);//parse response data into json object so we can work with it
+    cout << req.url << endl;
+
+    // Second Section Data
+    // get random value from genres array
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dis(0, GenresName.size()+1);
+    string genre = GenresName[dis(gen)];
+    req.url = "https://api.discogs.com/database/search?genre=" + genre + "&page=1&per_page=5";
+    res = loader.handleRequest(req);//load request into response object
+    json2.parse(res.data);//parse response data into json object so we can work with it
+    cout << req.url << endl;
+
+    // Third Section Data
+    // get random value from genres array
+    std::string genre2;
+    do {
+        std::random_device rd2;
+        std::mt19937 gen2(rd2());
+        std::uniform_int_distribution<> dis2(0, GenresName.size()+1);
+        genre2 = GenresName[dis2(gen2)];
+    } while (genre2 == genre);  // Ensure the second genre is different from the first one
+    req.url = "https://api.discogs.com/database/search?genre=" + genre2 + "&page=1&per_page=5";
+    res = loader.handleRequest(req);
+    json3.parse(res.data);
+    cout << req.url << endl;
+
+    for (int i = 0; i < json["results"].size(); ++i) {
+        string url = json["results"][i]["thumb"].asString();
+        imageURL1.push_back(url);
+        cout << "URL[" << i << "]: " << url << endl;
+        HomeartistImage1[i].load(imageURL1[i]);
+    }
+
+    for (int i = 0; i < json2["results"].size(); ++i) {
+		string url = json2["results"][i]["thumb"].asString();
+		imageURL2.push_back(url);
+		cout << "URL[" << i << "]: " << url << endl;
+		HomeartistImage2[i].load(imageURL2[i]);
+	}
+
+    for (int i = 0; i < json3["results"].size(); ++i) {
+		string url = json3["results"][i]["thumb"].asString();
+		imageURL3.push_back(url);
+		cout << "URL[" << i << "]: " << url << endl;
+		HomeartistImage3[i].load(imageURL3[i]);
+	}
+}
+
 
 // Add a method to save the song to the library
 void ofApp::saveToLibrary() {
@@ -591,6 +698,5 @@ void ofApp::loadLibrary() {
         cout << "-----------------------------------" << endl;
 
 	}
-
     cout << "Library loaded" << endl;
 }

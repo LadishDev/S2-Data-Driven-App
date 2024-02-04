@@ -3,6 +3,7 @@
 #include "ofMain.h"
 #include "ofxJSON.h"
 #include <vector>
+#include <random>
 
 class ofApp : public ofBaseApp {
 
@@ -16,6 +17,7 @@ public:
 	void mousePressed(int x, int y, int button);
 	void mouseReleased(int x, int y, int button);
 	bool validKey(int key); //checks if key is valid for search
+	void loadHomePage(); //loads home page
 
 	// Libary Functions to load and save data
 	void saveToLibrary();
@@ -24,7 +26,7 @@ public:
 	ofHttpRequest req;//handles request to API
 	ofHttpResponse res;//handles response from API
 	ofURLFileLoader loader;//object to load data
-	ofxJSONElement json;//object to store data
+	ofxJSONElement json, json2, json3;//object to store data
 	
 	ofTrueTypeFont OpenSans;//font object
 	ofTrueTypeFont OpenSanstitle;//font object
@@ -39,6 +41,14 @@ public:
 	ofRectangle TextBox; //text box for search
 	bool TextInput; //checks if text input is active
 	string word; //stores word to be searched
+
+	// *** Home Page *** //
+	ofRectangle SongBtn1[5];
+	ofRectangle SongBtn2[5];
+	ofRectangle SongBtn3[5];
+
+	vector<ofImage> HomeartistImage1, HomeartistImage2, HomeartistImage3;
+	vector<string> imageURL1, imageURL2, imageURL3;
 
 
 	// *** VIEW QUERY *** //
@@ -55,5 +65,5 @@ public:
 
 	// *** Genres Page *** //
 	ofRectangle GenresBtn[12];
-	vector <string> GenresName;
+	vector <string> GenresName = { "Rock", "Pop", "Jazz", "Blues", "Hip-Hop", "Country", "Electronic", "Folk", "Classical", "Reggae", "Soul", "Metal" };
 };

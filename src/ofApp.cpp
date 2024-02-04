@@ -235,24 +235,21 @@ void ofApp::draw() {
         // Draw Album Art and Album Name
         ofSetColor(255, 255, 255);
 
-
+        int rows = 3; // Number of rows
+        int cols = 5; // Number of columns
 
         for (int i = 0; i < library["results"].size(); ++i) {
-            libraryFrame.set(20 + i * 210, 256, 200, 290);
+            int row = i / cols; // Calculate the row index
+            int col = i % cols; // Calculate the column index
+
+            libraryFrame.set(20 + col * 210, 256 + row * 290, 200, 290);
+
             // Make sure the index is within the size of libraryImages
             if (i < libraryImages.size()) {
                 libraryImages[i].draw(libraryFrame);
             }
         }
 
-
-
-
-        /*
-        for (int i = 0; i < library["results"].size() && i < 7; i++) {
-            libraryFrame.set(20 + i * 210, 256, 200, 290);
-            ofDrawRectangle(libraryFrame);
-        }*/
 	}
     else if (MachineState == "Genres Page") {
         ofSetColor(47, 79, 79);

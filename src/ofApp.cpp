@@ -297,10 +297,15 @@ void ofApp::draw() {
 
         // Draw the About Information Text
         ofSetColor(255, 255, 255);
-        OpenSans.drawString("This is a music application that allows you to search for music and view information about the music you search for.", 60, 350);
-        OpenSans.drawString("This application is designed to be user friendly and easy to use.", 60, 400);
-        OpenSans.drawString("You are able to save songs to come back and look back at later on or store things u wish to purchase.", 60, 450);
-        OpenSans.drawString("You can use the search feature to search for song titles. If u want to search by artist and song name u can use this format (Artist - Song Name)", 60, 500);
+        OpenSans.drawString("This is a music application that allows you to search for", 60, 350);
+        OpenSans.drawString("music and view information about the chosen track.", 60, 400);
+        OpenSans.drawString("This application is designed to be user friendly and easy", 60, 500);
+        OpenSans.drawString("to use.", 60, 550);
+        OpenSans.drawString("You are able to save songs to come back and look back at", 60, 600);
+        OpenSans.drawString("later on or store things u wish to purchase..", 60, 650);
+        OpenSans.drawString("You can use the search feature to search for song titles. If", 60, 750);
+        OpenSans.drawString("you want to search by artist and song name u can use this", 60, 800);
+        OpenSans.drawString("format (Artist - Song Name)", 60, 850);
 	}
     else if (MachineState == "Song Saved Confirmation") {
 		OpenSanstitle.drawString("Song Saved", 405, 250);

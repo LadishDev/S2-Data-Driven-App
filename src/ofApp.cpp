@@ -31,7 +31,6 @@ void ofApp::setup() {
 
     TextBox.set(55, 105, 965, 50); // Set text box position for search
     MachineState = "First Time Launch";
-    //MachineState = "Libary Page"; // For Testing Purposes
     TextInput = false;
     word = "";
 }

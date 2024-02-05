@@ -568,50 +568,62 @@ void ofApp::mousePressed(int x, int y, int button) {
         if (GenresBtn[0].inside(x, y)) {
 			cout << "Genres Button " << GenresName[0] << " Pressed" << endl;
 			req.url = "https://api.discogs.com/database/search?genre=" + GenresName[0] + "&page=1&per_page=7";
+            WordSearched = GenresName[0];
 		}
         else if (GenresBtn[1].inside(x, y)) {
 			cout << "Genres Button " << GenresName[1] << " Pressed" << endl;
 			req.url = "https://api.discogs.com/database/search?genre=" + GenresName[1] + "&page=1&per_page=7";
+            WordSearched = GenresName[1];
 		}
         else if (GenresBtn[2].inside(x, y)) {
 			cout << "Genres Button " << GenresName[2] << " Pressed" << endl;
 			req.url = "https://api.discogs.com/database/search?genre=" + GenresName[2] + "&page=1&per_page=7";
+            WordSearched = GenresName[2];
 		}
         else if (GenresBtn[3].inside(x, y)) {
 			cout << "Genres Button " << GenresName[3] << " Pressed" << endl;
 			req.url = "https://api.discogs.com/database/search?genre=" + GenresName[3] + "&page=1&per_page=7";
+            WordSearched = GenresName[3];
         }
         else if (GenresBtn[4].inside(x, y)) {
             cout << "Genres Button " << GenresName[4] << " Pressed" << endl;
             req.url = "https://api.discogs.com/database/search?genre=" + GenresName[4] + "&page=1&per_page=7";
+            WordSearched = GenresName[4];
         }
         else if (GenresBtn[5].inside(x, y)) {
 			cout << "Genres Button " << GenresName[5] << " Pressed" << endl;
 			req.url = "https://api.discogs.com/database/search?genre=" + GenresName[5] + "&page=1&per_page=7";
+            WordSearched = GenresName[5];
 		}
         else if (GenresBtn[6].inside(x, y)) {
 			cout << "Genres Button " << GenresName[6] << " Pressed" << endl;
 			req.url = "https://api.discogs.com/database/search?genre=" + GenresName[6] + "&page=1&per_page=7";
+            WordSearched = GenresName[6];
 		}
         else if (GenresBtn[7].inside(x, y)) {
 			cout << "Genres Button " << GenresName[7] << " Pressed" << endl;
 			req.url = "https://api.discogs.com/database/search?genre=" + GenresName[7] + "&page=1&per_page=7";
+            WordSearched = GenresName[7];
 		}
         else if (GenresBtn[8].inside(x, y)) {
 			cout << "Genres Button " << GenresName[8] << " Pressed" << endl;
 			req.url = "https://api.discogs.com/database/search?genre=" + GenresName[8] + "&page=1&per_page=7";
+            WordSearched = GenresName[8];
 		}
         else if (GenresBtn[9].inside(x, y)) {
 			cout << "Genres Button " << GenresName[9] << " Pressed" << endl;
 			req.url = "https://api.discogs.com/database/search?genre=" + GenresName[9] + "&page=1&per_page=7";
+            WordSearched = GenresName[9];
 		}
         else if (GenresBtn[10].inside(x, y)) {
 			cout << "Genres Button " << GenresName[10] << " Pressed" << endl;
 			req.url = "https://api.discogs.com/database/search?genre=" + GenresName[10] + "&page=1&per_page=7";
+            WordSearched = GenresName[10];
 		}
         else if (GenresBtn[11].inside(x, y)) {
 			cout << "Genres Button " << GenresName[11] << " Pressed" << endl;
             req.url = "https://api.discogs.com/database/search?genre=" + GenresName[11] + "&page=1&per_page=7";
+            WordSearched = GenresName[11];
         }
         res = loader.handleRequest(req);//load request into response object
         json.parse(res.data);//parse response data into json object so we can work with it
@@ -624,7 +636,6 @@ void ofApp::mousePressed(int x, int y, int button) {
             artistImage[i].clear();
             artistImage[i].load(imageURL[i]);
         }
-        WordSearched = GenresName[0];
         MachineState = "Search Query";
     }
     else if (MachineState == "Song Saved Confirmation") {

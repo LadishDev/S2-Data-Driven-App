@@ -404,6 +404,7 @@ void ofApp::keyPressed(int key) {
                 string url = json["results"][i]["thumb"].asString();
                 imageURL.push_back(url);
                 cout << "URL[" << i << "]: " << url << endl;
+                artistImage[i].clear();
                 artistImage[i].load(imageURL[i]);
             }
             word = "";
@@ -616,11 +617,11 @@ void ofApp::mousePressed(int x, int y, int button) {
         json.parse(res.data);//parse response data into json object so we can work with it
         cout << req.url << endl;
         imageURL.clear();
-        artistImage.clear();
         for (int i = 0; i < json["results"].size(); ++i) {
             string url = json["results"][i]["thumb"].asString();
             imageURL.push_back(url);
             cout << "URL[" << i << "]: " << url << endl;
+            artistImage[i].clear();
             artistImage[i].load(imageURL[i]);
         }
         WordSearched = GenresName[0];

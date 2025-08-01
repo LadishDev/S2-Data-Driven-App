@@ -1,639 +1,85 @@
-# S2. Data Driven App
+<div align="center" id="top"> 
+  <img src="./logo.png" alt="S2 Data Driven App" width=150px height=150px />
 
-For this assignment you are tasked with developing an application that makes use of data retrieved from an API. Your application should demonstrate the use functions, and pass arguments between these as appropriate. Where possible, the application should also implement object oriented programming techniques. 
+  &#xa0;
 
-The final application should be delivered via a functioning interactive GUI built using openFrameworks. This GUI should allow the user to interact via mouse and/or keyboard input.
+  <!-- <a href="https://s2datadrivenapp.netlify.app">Demo</a> -->
+</div>
 
-For the assessment you are required to use one of the APIs listed below:
+<h1 align="center">S2 Data Driven App</h1>
 
-* [The Movie DB:](https://developer.themoviedb.org/)
-* [Discogs:](https://www.discogs.com/developers)
-* [Rest Countries:](https://restcountries.com/)
-* [Currency API:](https://freecurrencyapi.com/)
-* [Open Trivia:](https://opentdb.com/)
-* [Pokemon API:](https://pokeapi.co/)
-* [Harry Potter API:](https://potterdb.com/)
+<p align="center">
+  <img alt="Github top language" src="https://img.shields.io/github/languages/top/LadishDev/s2-data-driven-app?color=56BEB8">
+  <img alt="Github language count" src="https://img.shields.io/github/languages/count/LadishDev/s2-data-driven-app?color=56BEB8">
+  <img alt="Repository size" src="https://img.shields.io/github/repo-size/LadishDev/s2-data-driven-app?color=56BEB8">
+  <img alt="License" src="https://img.shields.io/github/license/LadishDev/s2-data-driven-app?color=56BEB8">
 
-How you use your chosen API and the functionality you provide within your application is up to you. Making creative use of the API and/or providing the user with a range of options to query the API will likely afford higher marks. You should explore the documentation for each API to see what is possible in order to help select the API you wish to work with. 
+  <!-- <img alt="Github issues" src="https://img.shields.io/github/issues/LadishDev/s2-data-driven-app?color=56BEB8" /> -->
 
-As noted above the application should be built using openFrameworks and make use of the ofxJSON addon. Compatible versions of openframeworks for the assessment can be downloaded from the links below:
+  <!-- <img alt="Github forks" src="https://img.shields.io/github/forks/LadishDev/s2-data-driven-app?color=56BEB8" /> -->
 
-[openFrameworks - Visual Studio](https://bathspaonline-my.sharepoint.com/:u:/g/personal/j_hobbs_bathspa_ac_uk/Eb_CgJwMxxBHrDeLSdH3lYABtHsKVv7aj_3S3QRjbWR2Ow?e=XPeqiQ)
+  <!-- <img alt="Github stars" src="https://img.shields.io/github/stars/LadishDev/s2-data-driven-app?color=56BEB8" /> -->
+</p>
 
-[openFrameworks - Xcode](https://bathspaonline-my.sharepoint.com/:u:/g/personal/j_hobbs_bathspa_ac_uk/EQMwlNADTI1Kgpt8YzOU7XgB1kPrgJryF4fSa79k1VEaXw?e=KgSWuZ)
+<!-- Status -->
 
-&nbsp;
+<!-- <h4 align="center"> 
+	🚧  S2 Data Driven App 🚀 Under construction...  🚧
+</h4> 
 
-**Deadline:** 31 January 2024, 11:59am
+<hr> -->
 
-*Please refer to Minerva for the full brief including marking criteria...*
+<p align="center">
+  <a href="#About">About</a> &#xa0; | &#xa0; 
+  <a href="#Features">Features</a> &#xa0; | &#xa0;
+  <a href="#Technologies">Technologies</a> &#xa0; | &#xa0;
+  <a href="#Requirements">Requirements</a> &#xa0; | &#xa0;
+  <a href="#Starting">Starting</a> &#xa0; | &#xa0;
+  <a href="#License">License</a> &#xa0; | &#xa0;
+  <a href="https://github.com/LadishDev" target="_blank">Author</a>
+</p>
 
-&nbsp;
-&nbsp;
+<br>
 
-## Creating the project
+## 🎯 About ##
 
-To create the project:
+This project was aimed to get me involved into interacting with an API and utilizing such data. This app is very basic and limited due to the API having lots of wrong data causing the implementation of some features impossible due to the information presented wouldnt be correct.
 
-* Open the project generator
-* Using the import option navigate to and select this folder (S2-Data-Driven-App) 
-* Include the ```ofxJson``` addon in the addons box.
-* Click ```Update```
-* Click ```open in IDE``` and run the project (if you get a grey window the project has successfully generated)
+However, even with these issues I faced it taught me a lot about interacting with APIs and the usefulness of them that can be applied in many different scenarios. If going back to this project I would restart from scratch and use a more robust and trust worthy API for all the data and use the Qt Framework but due to the limitations of this project I used the tools that were set out for me.
 
-&nbsp;
-&nbsp;
+## ✨ Features ##
 
-## Starter Code
+- Homepage of the app displays songs from different categories in the top 10. Also renews songs listed after app closed and relaunched.
+- Able to search songs via Song Name and Artist
+- Can save found songs to your list that is stored within a document.
 
-Below you will find starter code for each API listed on the brief. This starter code provides a basic example of how to call the API and retrieve data. To use the starter code simply copy/paste the code into the respective ofApp.h and ofApp.cpp files of your project. 
 
-If you have any issues creating the initial project you should contact your tutor in a timely manner.
+## 🚀 Technologies ##
 
-Jump to:
-* [The Movie DB](#the-movie-db)
-* [Discogs](#discogs)
-* [Rest Countries](#rest-countries)
-* [Currency API](#currency-api)
-* [Open Trivia API](#open-trivia-api)
-* [Pokemon API](#pokemon-api)
-* [Harry Potter API](#harry-potter-api)
+The following tools were used in this project:
 
-&nbsp;
-&nbsp;
+- [OpenFrameworks](https://openframeworks.cc/)
+- [Discogs API](https://www.discogs.com/developers)
 
-### The Movie DB
+## ✔️ Requirements ##
 
-* API requires a key can be accessed by signing up at: https://www.themoviedb.org/signup
-* Once you have signed up you will need to create an application, you can input test details for this e.g. http://example.com for the app url and "test application" for the description
-* API documentation can be found at: https://developer.themoviedb.org/reference/intro/getting-started
-* To display images the starting path is: https://image.tmdb.org/t/p/original/
+Before starting, you need to have [Git](https://git-scm.com) & [OpenFrameworks](https://openframeworks.cc/) installed.
 
-**ofApp.h**
-```C++
-#pragma once
+## 🏳️ Starting ##
 
-#include "ofMain.h"
-#include "ofxJSON.h"
+```bash
+# Clone this project
+$ git clone https://github.com/LadishDev/s2-data-driven-app
 
-class ofApp : public ofBaseApp{
+# Access
+$ cd s2-data-driven-app
 
-	public:
-		void setup();
-		void update();
-		void draw();
-
-		void keyPressed(int key);
-		void keyReleased(int key);
-		void mousePressed(int x, int y, int button);
-		void mouseReleased(int x, int y, int button);
-		
-        ofxJSONElement json;//stores data from API
-		
-};
+# Launch App Within Visual Studio via OpenFrameworks
 ```
 
-&nbsp;
-&nbsp;
+## 📝 License ##
 
-**ofApp.cpp**
+This project is under license from MIT. For more details, see the [LICENSE](LICENSE.md) file.
 
-```C++
-#include "ofApp.h"
-
-//--------------------------------------------------------------
-void ofApp::setup(){
-    /*
-     You will need an api key. This can be accessed by signing up at: https://www.themoviedb.org/signup
-     Once you have signed up you will need to create an application, you can input test details for this e.g. http://example.com for the app url and "test application" for the description
-     API documentation can be found at: https://developer.themoviedb.org/reference/intro/getting-started
-     To display images the starting path is: https://image.tmdb.org/t/p/original/
-    */
-    json.open("https://api.themoviedb.org/3/movie/550?api_key=YOURKEY");//returns Fight Club
-    cout << json.getRawString() << endl;
-}
-
-//--------------------------------------------------------------
-void ofApp::update(){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::draw(){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::keyPressed(int key){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::keyReleased(int key){
-
-}
-
-//-----------------------------------------------------
-void ofApp::mousePressed(int x, int y, int button){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseReleased(int x, int y, int button){
-
-}
-```
-
-&nbsp;
-&nbsp;
-
-### Discogs
-
-* API requires sign up here: https://accounts.discogs.com/login
-* Once signed in you will need to create an app: https://www.discogs.com/settings/developers
-* After creating an app you can generate a personal access token from this page: https://www.discogs.com/settings/developers
-
-**ofApp.h**
-```C++
-#pragma once
-
-#include "ofMain.h"
-#include "ofxJSON.h"
-#include <vector>
-
-class ofApp : public ofBaseApp{
-
-	public:
-		void setup();
-		void update();
-		void draw();
-
-		void keyPressed(int key);
-		void keyReleased(int key);
-		void mousePressed(int x, int y, int button);
-		void mouseReleased(int x, int y, int button);
-
-		ofHttpRequest req;//handles request to API
-		ofHttpResponse res;//handles response from API
-		ofURLFileLoader loader;//object to load data
-		ofxJSONElement json;//object to store data
-		
-};
-```
-
-&nbsp;
-&nbsp;
-
-**ofApp.cpp**
-
-```C++
-#include "ofApp.h"
-
-//--------------------------------------------------------------
-void ofApp::setup(){
-    /*
-    API requires sign up here: https://accounts.discogs.com/login
-    Once signed in you will need to create an app: https://www.discogs.com/settings/developers
-    After creating an app you can generate a personal access token from this page: https://www.discogs.com/settings/developers
-    As the API requires setting of headers to the steps to retrieve data are slightly different to the other APIs
-    */
-    req.headers["User-Agent"] = "YOURSTUDENTNUMBER_MusicAPI_BSU/v1 (YOUREMAIL@bathspa.ac.uk)";//sets user agent header - used to indentify your app
-    req.method = ofHttpRequest::GET;//sets request method to get (e.g. retrieve data)
-    req.url = "https://api.discogs.com/artists/125246?token=YOURACCESSTOKEN"; //specify the API call - this will retrieve Nirvana
-    
-    res = loader.handleRequest(req);//load request into response object
-    json.parse(res.data);//parse response data into json object so we can work with it
-  
-    cout << json.getRawString() << endl;//output raw data
-}
-
-//--------------------------------------------------------------
-void ofApp::update(){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::draw(){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::keyPressed(int key){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::keyReleased(int key){
-
-}
-
-//-----------------------------------------------------
-void ofApp::mousePressed(int x, int y, int button){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseReleased(int x, int y, int button){
-
-}
-```
-
-&nbsp;
-&nbsp;
-
-### Rest Countries
-
-API documentation can be found at: https://restcountries.com/
-
-**ofApp.h**
-```C++
-#pragma once
-
-#include "ofMain.h"
-#include "ofxJSON.h"
-
-class ofApp : public ofBaseApp{
-
-	public:
-		void setup();
-		void update();
-		void draw();
-
-		void keyPressed(int key);
-		void keyReleased(int key);
-		void mousePressed(int x, int y, int button);
-		void mouseReleased(int x, int y, int button);
-		
-        ofxJSONElement json;//stores data from API
-		
-};
-```
-
-&nbsp;
-&nbsp;
-
-**ofApp.cpp**
-
-```C++
-#include "ofApp.h"
-
-//--------------------------------------------------------------
-void ofApp::setup(){
-    /*
-     API documentation can be found at: https://restcountries.com/
-     */
-    json.open("https://restcountries.com/v3.1/name/United%20Kingdom");//returns data on United Kingdom
-    cout << json.getRawString() << endl;
-}
-
-//--------------------------------------------------------------
-void ofApp::update(){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::draw(){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::keyPressed(int key){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::keyReleased(int key){
-
-}
-
-//-----------------------------------------------------
-void ofApp::mousePressed(int x, int y, int button){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseReleased(int x, int y, int button){
-
-}
-```
-
-&nbsp;
-&nbsp;
-
-### Currency API
-
-* You need an key to use this API, access here: https://freecurrencyapi.com/
-* API documentation can be found at: https://freecurrencyapi.com/docs
-
-**ofApp.h**
-```C++
-#pragma once
-
-#include "ofMain.h"
-#include "ofxJSON.h"
-
-class ofApp : public ofBaseApp{
-
-	public:
-		void setup();
-		void update();
-		void draw();
-
-		void keyPressed(int key);
-		void keyReleased(int key);
-		void mousePressed(int x, int y, int button);
-		void mouseReleased(int x, int y, int button);
-		
-        ofxJSONElement json;//stores data from API
-		
-};
-```
-
-&nbsp;
-&nbsp;
-
-**ofApp.cpp**
-
-```C++
-#include "ofApp.h"
-
-//--------------------------------------------------------------
-void ofApp::setup(){
-    /*
-     You need an Key to use this API. Sign Up for one here: https://freecurrencyapi.com/
-     API documentation can be found at: https://freecurrencyapi.com/docs
-    */
-    json.open("https://api.freecurrencyapi.com/v1/latest?apikey=YOUR_KEY_HERE&currencies=GBP");//returns Dollar to Pound Conversion
-    cout << json.getRawString() << endl;
-}
-
-//--------------------------------------------------------------
-void ofApp::update(){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::draw(){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::keyPressed(int key){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::keyReleased(int key){
-
-}
-
-//-----------------------------------------------------
-void ofApp::mousePressed(int x, int y, int button){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseReleased(int x, int y, int button){
-
-}
-```
-
-&nbsp;
-&nbsp;
-
-### Open Trivia API
-
-API documentation can be found at: https://opentdb.com/api_config.php
-
-**ofApp.h**
-```C++
-#pragma once
-
-#include "ofMain.h"
-#include "ofxJSON.h"
-
-class ofApp : public ofBaseApp{
-
-	public:
-		void setup();
-		void update();
-		void draw();
-
-		void keyPressed(int key);
-		void keyReleased(int key);
-		void mousePressed(int x, int y, int button);
-		void mouseReleased(int x, int y, int button);
-		
-        ofxJSONElement json;//stores data from API
-		
-};
-```
-
-&nbsp;
-&nbsp;
-
-**ofApp.cpp**
-
-```C++
-#include "ofApp.h"
-
-//--------------------------------------------------------------
-void ofApp::setup(){
-    /*
-     API documentation can be found at: https://opentdb.com/api_config.php
-    */
-    json.open("https://opentdb.com/api.php?amount=1&category=21&difficulty=easy&type=boolean");//returns true of false question from sports category
-    cout << json.getRawString() << endl;
-}
-
-//--------------------------------------------------------------
-void ofApp::update(){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::draw(){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::keyPressed(int key){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::keyReleased(int key){
-
-}
-
-//-----------------------------------------------------
-void ofApp::mousePressed(int x, int y, int button){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseReleased(int x, int y, int button){
-
-}
-```
-
-&nbsp;
-&nbsp;
-
-### Pokemon API
-
-API documentation can be found at: https://pokeapi.co/docs/v2
-
-**ofApp.h**
-```C++
-#pragma once
-
-#include "ofMain.h"
-#include "ofxJSON.h"
-
-class ofApp : public ofBaseApp{
-
-	public:
-		void setup();
-		void update();
-		void draw();
-
-		void keyPressed(int key);
-		void keyReleased(int key);
-		void mousePressed(int x, int y, int button);
-		void mouseReleased(int x, int y, int button);
-		
-        ofxJSONElement json;//stores data from API
-		
-};
-```
-
-&nbsp;
-&nbsp;
-
-**ofApp.cpp**
-
-```C++
-#include "ofApp.h"
-
-//--------------------------------------------------------------
-void ofApp::setup(){
-    /*
-     API documentation can be found at: https://pokeapi.co/docs/v2
-    */
-    json.open("https://pokeapi.co/api/v2/berry/cheri");//returns data on the Cheri Berry
-    cout << json.getRawString() << endl;
-}
-
-//--------------------------------------------------------------
-void ofApp::update(){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::draw(){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::keyPressed(int key){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::keyReleased(int key){
-
-}
-
-//-----------------------------------------------------
-void ofApp::mousePressed(int x, int y, int button){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseReleased(int x, int y, int button){
-
-}
-```
-
-&nbsp;
-&nbsp;
-
-### Harry Potter API
-
-API documentation can be found at: https://docs.potterdb.com/
-
-**ofApp.h**
-```C++
-#pragma once
-
-#include "ofMain.h"
-#include "ofxJSON.h"
-
-class ofApp : public ofBaseApp{
-
-	public:
-		void setup();
-		void update();
-		void draw();
-
-		void keyPressed(int key);
-		void keyReleased(int key);
-		void mousePressed(int x, int y, int button);
-		void mouseReleased(int x, int y, int button);
-		
-        ofxJSONElement json;//stores data from API
-		
-};
-```
-
-&nbsp;
-&nbsp;
-
-**ofApp.cpp**
-
-```C++
-#include "ofApp.h"
-
-//--------------------------------------------------------------
-void ofApp::setup(){
-    /*
-     API documentation can be found at: https://docs.potterdb.com/
-    */
-    json.open("https://api.potterdb.com/v1/characters/harry-potter");//returns Harry Potter
-    cout << json.getRawString() << endl;
-}
-
-//--------------------------------------------------------------
-void ofApp::update(){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::draw(){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::keyPressed(int key){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::keyReleased(int key){
-
-}
-
-//-----------------------------------------------------
-void ofApp::mousePressed(int x, int y, int button){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseReleased(int x, int y, int button){
-
-}
-```
-
-&nbsp;
-&nbsp;
+&#xa0;
+<a href="#top">Back to top</a>
